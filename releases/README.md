@@ -31,6 +31,28 @@ snapshot. That means:
 - openSUSE Tumbleweed/Aeon/MicroOS:
   `.rpm`
 
+## R2.5 Package Set
+
+These are the runtime packages currently produced and suitable for GitHub
+release attachments for the `R2.5` snapshot:
+
+- Ubuntu/Debian:
+  `libfprint-2-2-canvasbio_1.94.10+canvasbio.202604120211_amd64.deb`
+- Fedora / Kinoite / Silverblue:
+  `libfprint-1.94.10-99.canvasbio.202604120240.fc43.x86_64.rpm`
+- Arch Linux:
+  `libfprint-canvasbio-1.94.10-202604120248-x86_64.pkg.tar.zst`
+- openSUSE Tumbleweed / Aeon / MicroOS:
+  `libfprint2-canvasbio-1.94.10-99.canvasbio.202604120256.x86_64.rpm`
+
+Artifacts that should normally stay out of the public release page:
+
+- `*-debuginfo-*`
+- `*-debugsource-*`
+- `*-devel-*`
+- `*-tests-*`
+- Arch `*-debug-*`
+
 ## Expected Release Contents
 
 Each release should ideally provide:
@@ -39,6 +61,8 @@ Each release should ideally provide:
 - notes about important behavior changes
 - the available distro packages
 - installation notes for atomic desktops when relevant
+- an explicit statement that `R2.5` is a functional snapshot, not yet the final
+  dependency-reduced public testing phase
 
 ## Installation Notes
 

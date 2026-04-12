@@ -1,58 +1,95 @@
-# CanvasMancer
+# canvasbio-cb2000
 
 Linux `libfprint` driver for the CanvasBio CB2000 fingerprint reader.
 
-This repository serves two public audiences:
+This public repository is a functional `R2.5` snapshot. It is meant to
+document the current driver state, package outputs and technical rationale. It
+is not yet a fully supported public testing program.
 
-- users and testers who want the current driver state and installable packages
-- developers and tinkerers who want to inspect, rebuild, debug, and improve the driver
+## Status
 
-It does not expose internal project workflow that is too personal or too specific
-to the local development environment.
-
-## Current State
-
-- Active driver: `src/canvasbio_cb2000.c`
-- Active matcher core: `src/cb2000_sigfm_matcher.c/.h`
-- Active helper sidecar: `build/libcb2000_sigfm_opencv.so` built from repo sources
-- Sensor IDs: `0x2DF0:0x0003` and `0x2DF0:0x0007`
+- Driver: `src/canvasbio_cb2000.c`
+- Matcher core: `src/cb2000_sigfm_matcher.c/.h`
+- Helper sidecar: `src/cb2000_sigfm_opencv_helper.cpp`
+- Sensor IDs: `0x2DF0:0x0003`, `0x2DF0:0x0007`
 - Geometry: `80x64`, `340 dpi`, `6.0 mm x 4.8 mm`
 - Enrollment flow: `15` stages
-- Thermal model: libfprint virtual hot-shutdown disabled for this device
+- Thermal model: virtual libfprint hot-shutdown disabled for this device
+- Template model: `v2` mosaic path with fallback compatibility for older prints
 
-The driver is functional, but still under active development and tuning. This
-public repository should be treated as a working `R2.5` snapshot, not as a
-fully supported end-user product line.
+Current controlled-test snapshot:
+
+| Metric | Result |
+|--------|--------|
+| GAR | `100%` |
+| FAR | `0%` in controlled wrong-finger tests |
+| Enrollment stages | `15` |
+| Template format | `v2` |
+
+These results come from controlled technical validation, not from a broad
+multi-user public study.
 
 ## Audience Guide
 
 - Want packages to install:
   see `releases/README.md`
-- Want a high-level driver explanation:
+- Want the technical rationale:
   see `docs/DRIVER_NOTES.md`
-- Want the development lab and helper scripts:
-  see `docs/DEVELOPER_LAB.md` and `scripts/README.md`
-- Want deeper technical references:
+- Want implementation details, findings and architecture notes:
   see `docs/`
+- Want build and lab tooling:
+  see `docs/DEVELOPER_LAB.md` and `scripts/README.md`
+
+## Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| Compiler | `gcc`, `g++` |
+| Build system | `meson`, `ninja-build` |
+| OpenCV | 4.x (`libopencv-dev` or distro equivalent) |
+| libfprint | source tree, `>= 1.94` |
+| Python | `>= 3.10` for analysis/report helpers |
+
+The current `R2.5` snapshot still depends on an OpenCV sidecar for the active
+feature-mosaic path.
 
 ## Why 15 Enrollment Stages
 
-The CB2000 captures a very small region of the finger on each press. Each
-accepted image is only one local view, not a full fingerprint.
-
-Using just a few samples increases the chance of:
+The CB2000 captures only a small local region of the finger on each press. A
+small number of enrollment samples tends to produce:
 
 - weak spatial coverage
-- duplicated local regions
-- poor mosaic diversity
-- `enroll-retry-scan`
-- `enroll-remove-and-retry`
-- later `no-match` against the correct finger
+- repeated local regions
+- poor descriptor diversity
+- more `enroll-retry-scan`
+- more `enroll-remove-and-retry`
+- more false `no-match` events later
 
-The current `15`-stage flow exists to collect enough distinct local coverage to
-build a more robust feature mosaic. In practice, the user should do a
-lift-and-shift motion with small positional changes rather than repeatedly
-pressing exactly the same region.
+So the current driver uses a `15`-stage lift-and-shift enrollment flow. The
+goal is not "15 photos" as a cosmetic number. The goal is enough distinct local
+coverage to build a stronger feature mosaic from a very small sensor.
+
+Technical rationale:
+- `docs/DRIVER_NOTES.md`
+- `docs/DECISIONS.md`
+- `docs/FINDINGS.md`
+
+## Why OpenCV Is Still Present
+
+This snapshot still uses an OpenCV sidecar because the active template path is
+feature-mosaic based.
+
+Current division of work:
+
+- `src/canvasbio_cb2000.c`
+  main libfprint driver
+- `src/cb2000_sigfm_matcher.c`
+  in-driver SIGFM matcher core in C
+- `src/cb2000_sigfm_opencv_helper.cpp`
+  OpenCV helper for feature extraction/alignment/mosaic support
+
+The longer-term direction is to remove or replace this dependency, but that work
+has not been completed in `R2.5`.
 
 ## Why Thermal Override Is Enabled
 
@@ -62,62 +99,84 @@ The driver sets:
 dev_class->temp_hot_seconds = -1; /* Solves false temperature hot shutdown */
 ```
 
-This disables libfprint's generic virtual thermal throttling model for this
-device. In real use, that model was causing false `FP_TEMPERATURE_HOT` shutdowns
-during enrollment, especially because the CB2000 workflow may legitimately spend
-longer collecting many small coverage samples.
+That disables libfprint's generic virtual thermal throttling model for this
+device. In practice, the generic model was causing false `FP_TEMPERATURE_HOT`
+shutdowns during valid enrollment sessions, especially with the longer
+multi-sample collection required by the CB2000.
 
-This is not a claim that thermal behavior is irrelevant in every context. It is
-a pragmatic compatibility choice to avoid a false software-side stop condition
-that was blocking valid enroll flows on this hardware.
+## Installation Paths
 
-## Repository Layout
+Three realistic paths exist today.
 
-- `src/`
-  active driver, matcher, helper source and Meson integration
-- `scripts/`
-  development lab helpers, integration helpers, runtime flows and package builders
-- `docs/`
-  driver notes, lab notes, findings and durable references
-- `tools/`
-  auxiliary files such as `udev` rules
-- `releases/`
-  release-facing notes and pointers to installable packages
+### 1. Install a published package
 
-## Packages
+This is the preferred path for anyone evaluating `R2.5` as a snapshot.
 
-Installable distro packages should be published through project releases. The
-repository now reserves `releases/` as the canonical place to describe package
-formats, expected file names and installation notes.
+See `releases/README.md` for the package list and expected filenames.
 
-Current package families:
+### 2. Use the build/lab scripts
+
+Use this if you want to reproduce the package builds or run the driver in the
+current development-lab flow.
+
+Entry points:
+
+```bash
+bash ./scripts/setup-libfprint.sh --all
+bash ./scripts/build_sigfm_opencv_helper.sh
+bash ./scripts/run_cb2000_interactive.sh
+```
+
+Ubuntu-oriented tester path:
+
+```bash
+bash ./scripts/cb2000_ubuntu_tester.sh prepare-host
+bash ./scripts/cb2000_ubuntu_tester.sh prepare-runtime
+bash ./scripts/cb2000_ubuntu_tester.sh test
+bash ./scripts/cb2000_ubuntu_tester.sh build-deb
+```
+
+### 3. Integrate manually into libfprint
+
+For full manual control, use the integration details in:
+
+- `docs/CB2000_STANDALONE_PACKAGE_README.md`
+- `scripts/README.md`
+
+## Package Outputs
+
+The current distro package families are:
 
 - Ubuntu/Debian: `.deb`
 - Fedora/Kinoite/Silverblue: `.rpm`
 - Arch Linux: `.pkg.tar.zst`
 - openSUSE Tumbleweed/Aeon/MicroOS: `.rpm`
 
-See `releases/README.md` for details.
+Only the runtime/install packages should be attached to public releases. Do not
+attach debug, debugsource, tests or devel artifacts unless there is a specific
+technical reason.
 
-## Development Lab
+## Repository Layout
 
-The scripts in `scripts/` are intentionally kept for developers, contributors
-and tinkerers. They are not presented as a polished end-user installer.
-
-That lab exists to help with:
-
-- local integration into `libfprint`
-- USB permission preparation
-- containerized runtime testing
-- artifact collection
-- report generation
-- distro package generation
-
-See `docs/DEVELOPER_LAB.md` and `scripts/README.md`.
+- `src/`
+  active driver, matcher, helper source and Meson integration
+- `scripts/`
+  build, runtime, analysis and packaging helpers
+- `docs/`
+  technical rationale, findings, architecture notes and package walkthroughs
+- `tools/`
+  auxiliary assets such as `udev` rules
+- `releases/`
+  package and release guidance
 
 ## Support Status
 
-This public repository is a functional snapshot meant to document the current
-driver state and provide reproducible build/test paths. It is not yet presented
-as a supported public testing program. Dependency reduction and further cleanup
-are still planned before broader public testing phases.
+This repository is published as a working snapshot that functions with its
+current dependency set. It is not yet presented as:
+
+- a broad public testing campaign
+- a dependency-reduced final packaging shape
+- an upstream-ready libfprint submission
+
+Those phases still require more work, especially around dependency reduction and
+matcher/helper refactoring.
