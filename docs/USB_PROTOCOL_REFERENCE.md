@@ -1,12 +1,9 @@
 # CB2000 USB Protocol Reference
 
-**Project location:** `/home/kris/Data/Estudo-Conhecimento/Projetos/CanvasMancer`
-
-Complete USB protocol specification derived from Windows PCAPs and Ghidra RE.
+Complete USB protocol specification derived from historical Windows captures and
+reverse-engineering work.
 
 **Updated:** 2026-02-24
-**PCAP source:** `archive/legacy/reference/PCAPs/Windows/*TRASHOUT.json`
-**RE source:** `reference/Reverse_Engineering-Ghidra/`
 
 ---
 

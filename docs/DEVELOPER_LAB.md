@@ -32,7 +32,7 @@ repository narrative.
 
 Examples of things that should not be central in public-facing docs:
 
-- local RAG workflow
+- local indexing workflow
 - personal indexing/bootstrap routines
 - private iteration habits
 - deeply personal project-management structure
