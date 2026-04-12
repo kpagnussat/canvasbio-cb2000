@@ -36,12 +36,12 @@ snapshot. That means:
 These are the runtime packages currently produced and suitable for GitHub
 release attachments for the `R2.5` snapshot:
 
-| Distro family | Internal package name | Current release asset |
-|---------------|-----------------------|------------------------|
-| Ubuntu / Debian | `libfprint-2-2-canvasbio` | `libfprint-2-2-canvasbio_1.94.10+canvasbio.202604121230_amd64.deb` |
-| Fedora / Kinoite / Silverblue | `libfprint` | `libfprint-1.94.10-99.canvasbio.202604121232.fc43.x86_64.rpm` |
-| Arch Linux | `libfprint-canvasbio` | `libfprint-canvasbio-1.94.10-202604121230-x86_64.pkg.tar.zst` |
-| openSUSE Tumbleweed / Aeon / MicroOS | `libfprint2-canvasbio` | `libfprint2-canvasbio-1.94.10-99.canvasbio.202604121233.x86_64.rpm` |
+| Distro family | Internal package name | Public release attachment |
+|---------------|-----------------------|---------------------------|
+| Ubuntu / Debian | `libfprint-2-2-canvasbio` | `ubuntu-debian_libfprint-2-2-canvasbio.deb` |
+| Fedora / Kinoite / Silverblue | `libfprint` | `fedora_libfprint.rpm` |
+| Arch Linux | `libfprint-canvasbio` | `arch_libfprint-canvasbio.pkg.tar.zst` |
+| openSUSE Tumbleweed / Aeon / MicroOS | `libfprint2-canvasbio` | `opensuse_libfprint2-canvasbio.rpm` |
 
 Artifacts that should normally stay out of the public release page:
 
@@ -98,8 +98,8 @@ The current builders generate distro-native names on purpose:
 These names are not fully identical across distros because each package needs
 to fit the local package manager's replacement and dependency model. What is
 normalized for public release purposes is the deliverable set: one runtime
-package per distro family, clearly documented, with exact filenames listed
-above.
+package per distro family, clearly documented, with stable public attachment
+aliases listed above.
 
 ## Public Docs Linkage
 

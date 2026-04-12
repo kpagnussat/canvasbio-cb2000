@@ -155,6 +155,10 @@ and emits a ready-to-use install command at the end. For Fedora/openSUSE, the
 install tip already uses the host-visible package path under
 `HOST_ISOLATED_HOME` instead of the in-container path.
 
+For public GitHub Releases, the private lab also stages normalized attachment
+aliases under `test/release_assets/<snapshot>/public/` using the shape
+`<distro>_<package>.<extension>`.
+
 | Target | Script | Default container | Package |
 |--------|--------|-------------------|---------|
 | Fedora 43 / Kinoite / Silverblue | `build_libfprint_rpm_fedora.sh` | `cb2000-fedora` | `.rpm` |

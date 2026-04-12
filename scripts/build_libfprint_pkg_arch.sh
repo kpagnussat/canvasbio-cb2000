@@ -265,9 +265,16 @@ echo -e "\n${GREEN}========================================================${NC}
 echo -e "${GREEN}SUCCESS: $(basename "${PKG_FILE}")${NC}"
 echo -e "${GREEN}========================================================${NC}"
 echo -e "Output: ${PKG_FILE}"
+bash "${PROJECT_ROOT}/scripts/cb2000_prepare_release_asset.sh" \
+    --distro arch \
+    --package-name libfprint-canvasbio \
+    --artifact "${PKG_FILE}"
 echo ""
 echo -e "${YELLOW}To install:${NC}"
 echo -e "  sudo pacman -U ${PKG_FILE}"
+echo ""
+echo -e "${YELLOW}Public release alias:${NC}"
+echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/arch_libfprint-canvasbio.pkg.tar.zst"
 echo ""
 echo -e "${YELLOW}Includes:${NC}"
 echo -e "  /usr/lib/libcb2000_sigfm_opencv.so        (OpenCV sidecar)"

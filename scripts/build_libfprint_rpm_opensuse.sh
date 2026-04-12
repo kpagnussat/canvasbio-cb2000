@@ -316,6 +316,10 @@ echo -e "\n${GREEN}========================================================${NC}
 echo -e "${GREEN}SUCCESS: ${RPM_NAME}${NC}"
 echo -e "${GREEN}========================================================${NC}"
 echo -e "Output: ${RPM_PATH}"
+bash "${PROJECT_ROOT}/scripts/cb2000_prepare_release_asset.sh" \
+    --distro opensuse \
+    --package-name libfprint2-canvasbio \
+    --artifact "${RPM_PATH}"
 echo ""
 echo -e "${YELLOW}openSUSE Tumbleweed (regular):${NC}"
 echo -e "  sudo zypper install --allow-unsigned-rpm ${RPM_PATH}"
@@ -323,6 +327,9 @@ echo ""
 echo -e "${YELLOW}Aeon / MicroOS (atomic) — run on HOST:${NC}"
 echo -e "  sudo transactional-update pkg install \\"
 echo -e "    ${HOST_ISOLATED_HOME}/libfprint-suse-build/rpmbuild/RPMS/${ARCH}/${RPM_NAME}"
+echo ""
+echo -e "${YELLOW}Public release alias:${NC}"
+echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/opensuse_libfprint2-canvasbio.rpm"
 echo ""
 echo -e "${YELLOW}Includes:${NC}"
 echo -e "  %{_libdir}/libcb2000_sigfm_opencv.so      (OpenCV sidecar)"

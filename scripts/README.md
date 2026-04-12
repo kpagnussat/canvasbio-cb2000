@@ -73,6 +73,11 @@ Each distro has a dedicated hardened build script. All scripts share the same
 container management pattern: they auto-create a named distrobox container on
 first run, or accept `--ephemeral` for a throwaway container.
 
+At the end of a successful package build, the scripts also stage a normalized
+public-facing release alias under `test/release_assets/<snapshot>/public/` so
+the GitHub Release upload step can use stable names independent of distro
+version strings.
+
 | Distro | Script | Container image | Package format |
 |--------|--------|-----------------|----------------|
 | Fedora / Kinoite / Silverblue | `build_libfprint_rpm_fedora.sh` | `fedora:43` | `.rpm` via `fedpkg` + `rpmbuild` |
@@ -310,6 +315,27 @@ post-session analysis.
 
 ```bash
 Usage: ./scripts/cb2000_collect_runtime.sh [RUN_ID]
+```
+
+### `cb2000_prepare_release_asset.sh` — Normalize Release Attachment Names
+
+Creates a public-facing copy of a built package using the stable attachment
+shape `<distro>_<package>.<extension>`.
+
+Examples:
+
+```bash
+./scripts/cb2000_prepare_release_asset.sh \
+  --distro ubuntu-debian \
+  --package-name libfprint-2-2-canvasbio \
+  --artifact "$HOME/libfprint-deb-build/libfprint-2-2-canvasbio_1.94.10+canvasbio.202604121230_amd64.deb"
+```
+
+The packaging scripts call this automatically after a successful build. The
+default target is:
+
+```text
+test/release_assets/R2.5/public/
 ```
 
 ### `cb2000_session_log.sh` — Session Log Helper
