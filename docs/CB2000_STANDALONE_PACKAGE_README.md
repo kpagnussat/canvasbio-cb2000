@@ -157,7 +157,7 @@ install tip already uses the host-visible package path under
 
 For public GitHub Releases, the private lab also stages normalized attachment
 aliases under `test/release_assets/<snapshot>/public/` using the shape
-`<distro>_<package>.<extension>`.
+`<distro>_libfprint-canvasbio-cb2000.<extension>`.
 
 | Target | Script | Default container | Package |
 |--------|--------|-------------------|---------|

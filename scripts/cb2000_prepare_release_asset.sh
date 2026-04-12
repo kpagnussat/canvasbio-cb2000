@@ -6,6 +6,7 @@ PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
 DISTRO_KEY=""
 PACKAGE_NAME=""
+PUBLIC_NAME=""
 ARTIFACT_PATH=""
 SNAPSHOT_TAG="${CB2000_RELEASE_SNAPSHOT:-R2.5}"
 TARGET_ROOT=""
@@ -15,6 +16,7 @@ show_help() {
 Usage: ./scripts/cb2000_prepare_release_asset.sh \
   --distro <key> \
   --package-name <name> \
+  [--public-name <name>] \
   --artifact <path> \
   [--snapshot <tag>] \
   [--target-root <dir>]
@@ -22,15 +24,19 @@ Usage: ./scripts/cb2000_prepare_release_asset.sh \
 Creates a normalized public-facing release attachment alias from a distro-native
 package build output.
 
+If `--public-name` is omitted, the distro-native package name is reused.
+
 Examples:
   ./scripts/cb2000_prepare_release_asset.sh \
     --distro ubuntu-debian \
     --package-name libfprint-2-2-canvasbio \
+    --public-name libfprint-canvasbio-cb2000 \
     --artifact "$HOME/libfprint-deb-build/libfprint-2-2-canvasbio_1.94.10+canvasbio.202604121230_amd64.deb"
 
   ./scripts/cb2000_prepare_release_asset.sh \
     --distro fedora \
     --package-name libfprint \
+    --public-name libfprint-canvasbio-cb2000 \
     --artifact "$HOME/rpmbuild/RPMS/x86_64/libfprint-1.94.10-99.canvasbio.202604121232.fc43.x86_64.rpm"
 EOF
 }
@@ -43,6 +49,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --package-name)
       PACKAGE_NAME="${2:-}"
+      shift 2
+      ;;
+    --public-name)
+      PUBLIC_NAME="${2:-}"
       shift 2
       ;;
     --artifact)
@@ -75,6 +85,10 @@ if [[ -z "${DISTRO_KEY}" || -z "${PACKAGE_NAME}" || -z "${ARTIFACT_PATH}" ]]; th
   exit 1
 fi
 
+if [[ -z "${PUBLIC_NAME}" ]]; then
+  PUBLIC_NAME="${PACKAGE_NAME}"
+fi
+
 if [[ ! -f "${ARTIFACT_PATH}" ]]; then
   echo "ERROR: artifact not found: ${ARTIFACT_PATH}" >&2
   exit 1
@@ -102,7 +116,7 @@ fi
 
 mkdir -p "${TARGET_ROOT}"
 
-TARGET_FILE="${TARGET_ROOT}/${DISTRO_KEY}_${PACKAGE_NAME}.${EXTENSION}"
+TARGET_FILE="${TARGET_ROOT}/${DISTRO_KEY}_${PUBLIC_NAME}.${EXTENSION}"
 cp -f "${ARTIFACT_PATH}" "${TARGET_FILE}"
 
 MANIFEST_PATH="${TARGET_ROOT}/manifest.txt"

@@ -76,7 +76,8 @@ first run, or accept `--ephemeral` for a throwaway container.
 At the end of a successful package build, the scripts also stage a normalized
 public-facing release alias under `test/release_assets/<snapshot>/public/` so
 the GitHub Release upload step can use stable names independent of distro
-version strings.
+version strings. The current stable stem is `libfprint-canvasbio-cb2000`, so
+the aliases look like `<distro>_libfprint-canvasbio-cb2000.<extension>`.
 
 | Distro | Script | Container image | Package format |
 |--------|--------|-----------------|----------------|
@@ -320,7 +321,7 @@ Usage: ./scripts/cb2000_collect_runtime.sh [RUN_ID]
 ### `cb2000_prepare_release_asset.sh` — Normalize Release Attachment Names
 
 Creates a public-facing copy of a built package using the stable attachment
-shape `<distro>_<package>.<extension>`.
+shape `<distro>_libfprint-canvasbio-cb2000.<extension>`.
 
 Examples:
 
@@ -328,6 +329,7 @@ Examples:
 ./scripts/cb2000_prepare_release_asset.sh \
   --distro ubuntu-debian \
   --package-name libfprint-2-2-canvasbio \
+  --public-name libfprint-canvasbio-cb2000 \
   --artifact "$HOME/libfprint-deb-build/libfprint-2-2-canvasbio_1.94.10+canvasbio.202604121230_amd64.deb"
 ```
 

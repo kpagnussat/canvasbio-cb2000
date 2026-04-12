@@ -38,10 +38,10 @@ release attachments for the `R2.5` snapshot:
 
 | Distro family | Internal package name | Public release attachment |
 |---------------|-----------------------|---------------------------|
-| Ubuntu / Debian | `libfprint-2-2-canvasbio` | `ubuntu-debian_libfprint-2-2-canvasbio.deb` |
-| Fedora / Kinoite / Silverblue | `libfprint` | `fedora_libfprint.rpm` |
-| Arch Linux | `libfprint-canvasbio` | `arch_libfprint-canvasbio.pkg.tar.zst` |
-| openSUSE Tumbleweed / Aeon / MicroOS | `libfprint2-canvasbio` | `opensuse_libfprint2-canvasbio.rpm` |
+| Ubuntu / Debian | `libfprint-2-2-canvasbio` | `ubuntu-debian_libfprint-canvasbio-cb2000.deb` |
+| Fedora / Kinoite / Silverblue | `libfprint` | `fedora_libfprint-canvasbio-cb2000.rpm` |
+| Arch Linux | `libfprint-canvasbio` | `arch_libfprint-canvasbio-cb2000.pkg.tar.zst` |
+| openSUSE Tumbleweed / Aeon / MicroOS | `libfprint2-canvasbio` | `opensuse_libfprint-canvasbio-cb2000.rpm` |
 
 Artifacts that should normally stay out of the public release page:
 
@@ -98,8 +98,8 @@ The current builders generate distro-native names on purpose:
 These names are not fully identical across distros because each package needs
 to fit the local package manager's replacement and dependency model. What is
 normalized for public release purposes is the deliverable set: one runtime
-package per distro family, clearly documented, with stable public attachment
-aliases listed above.
+package per distro family, clearly documented, with a single project-stable
+public attachment stem listed above.
 
 ## Public Docs Linkage
 

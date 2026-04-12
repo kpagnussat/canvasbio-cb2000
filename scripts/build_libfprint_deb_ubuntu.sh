@@ -308,6 +308,7 @@ echo -e "Output: ${DEB_FILE}"
 bash "${PROJECT_ROOT}/scripts/cb2000_prepare_release_asset.sh" \
     --distro ubuntu-debian \
     --package-name "${PACKAGE_NAME}" \
+    --public-name libfprint-canvasbio-cb2000 \
     --artifact "${DEB_FILE}"
 echo ""
 echo -e "${YELLOW}To install:${NC}"
@@ -316,5 +317,5 @@ echo -e "  sudo apt-get install -f   # fix dependencies if needed"
 echo -e "  sudo udevadm control --reload-rules && sudo udevadm trigger --subsystem-match=usb --attr-match=idVendor=2df0"
 echo ""
 echo -e "${YELLOW}Public release alias:${NC}"
-echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/ubuntu-debian_${PACKAGE_NAME}.deb"
+echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/ubuntu-debian_libfprint-canvasbio-cb2000.deb"
 echo -e "${GREEN}========================================================${NC}"

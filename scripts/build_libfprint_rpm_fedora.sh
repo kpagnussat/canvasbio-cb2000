@@ -242,13 +242,14 @@ echo -e "Output (inside container): ~/${RELATIVE_PATH}"
 bash "${PROJECT_ROOT}/scripts/cb2000_prepare_release_asset.sh" \
     --distro fedora \
     --package-name libfprint \
+    --public-name libfprint-canvasbio-cb2000 \
     --artifact "${RPM_PATH}"
 echo ""
 echo -e "${YELLOW}Kinoite / Silverblue — run on HOST:${NC}"
 echo -e "  sudo rpm-ostree override replace ${HOST_ISOLATED_HOME}/${RELATIVE_PATH}"
 echo ""
 echo -e "${YELLOW}Public release alias:${NC}"
-echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/fedora_libfprint.rpm"
+echo -e "  ${PROJECT_ROOT}/test/release_assets/${CB2000_RELEASE_SNAPSHOT:-R2.5}/public/fedora_libfprint-canvasbio-cb2000.rpm"
 echo ""
 echo -e "${YELLOW}Includes:${NC}"
 echo -e "  %{_libdir}/libcb2000_sigfm_opencv.so      (OpenCV sidecar)"

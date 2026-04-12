@@ -172,8 +172,9 @@ replacement model while still publishing exactly one runtime artifact per distro
 family in public releases.
 
 For GitHub Releases, the private lab stages normalized attachment aliases in
-the form `<distro>_<package>.<extension>` so the upload set stays stable even
-when distro-native build filenames include changing version or release fields.
+the form `<distro>_libfprint-canvasbio-cb2000.<extension>` so the upload set
+stays stable even when distro-native build filenames include changing version
+or release fields.
 
 ## Repository Layout
 
