@@ -1,0 +1,28 @@
+# Build outputs
+build/
+*.so
+*.o
+
+# Test/runtime artifacts
+test/
+logs/
+*.raw
+*.pgm
+*.variant
+test-storage.variant
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+scripts/venv/
+
+# Local config
+.cb2000_env
+.claude/
+
+# Internal/private material
+cb2000_rag.db
+scripts/rag/
+reference/

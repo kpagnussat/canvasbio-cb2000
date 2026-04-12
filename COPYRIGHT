@@ -1,0 +1,11 @@
+canvasbio-cb2000
+================
+
+Copyright (C) 2025-2026 Kristofer Pagnussat
+
+This repository publishes the standalone CanvasBio CB2000 driver package for
+libfprint, including the main driver sources, the SIGFM matcher path, the
+OpenCV feature-mosaic helper, and the associated build/session/report scripts.
+
+The repository license text is provided in `LICENSE` as LGPL-2.1.
+The driver source files themselves declare LGPL-2.1-or-later where applicable.

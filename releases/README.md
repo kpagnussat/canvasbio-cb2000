@@ -1,0 +1,65 @@
+# Releases
+
+This directory documents the installable package outputs that should be attached
+to project releases.
+
+The repository does not need to store every built package directly in git. The
+recommended public distribution model is:
+
+- commit source code and documentation to the repository
+- publish built artifacts in GitHub Releases
+- reference those artifacts from here and from the main `README.md`
+
+## Package Families
+
+- Ubuntu/Debian:
+  `.deb`
+- Fedora/Kinoite/Silverblue:
+  `.rpm`
+- Arch Linux:
+  `.pkg.tar.zst`
+- openSUSE Tumbleweed/Aeon/MicroOS:
+  `.rpm`
+
+## Expected Release Contents
+
+Each release should ideally provide:
+
+- one short summary of the driver state
+- notes about important behavior changes
+- the available distro packages
+- installation notes for atomic desktops when relevant
+
+## Installation Notes
+
+- Ubuntu/Debian:
+  install the published `.deb`
+- Fedora atomic desktops:
+  use the published `.rpm` with `rpm-ostree override replace` when needed
+- Arch Linux:
+  install the published `.pkg.tar.zst` with `pacman -U`
+- openSUSE regular:
+  install the published `.rpm` with `zypper`
+- openSUSE Aeon/MicroOS:
+  use `transactional-update pkg install`
+
+## Naming
+
+The current builders generate package names in these shapes:
+
+- Ubuntu/Debian:
+  `libfprint-canvasbio_...amd64.deb`
+- Fedora:
+  `libfprint-...fcXX.x86_64.rpm`
+- Arch:
+  `libfprint-canvasbio-...x86_64.pkg.tar.zst`
+- openSUSE:
+  `libfprint2-canvasbio-...x86_64.rpm`
+
+## Public Docs Linkage
+
+The public documentation should point here when users ask:
+
+- where do I download packages?
+- which package format should I install?
+- are prebuilt packages available for my distro?
