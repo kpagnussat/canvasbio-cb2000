@@ -10,6 +10,16 @@ recommended public distribution model is:
 - publish built artifacts in GitHub Releases
 - reference those artifacts from here and from the main `README.md`
 
+## Snapshot Positioning
+
+The public repository is currently intended to publish a functional `R2.5`
+snapshot. That means:
+
+- the packages are useful for reproduction and technical evaluation
+- the current dependency set is still accepted as-is
+- this is not yet the final dependency-reduced shape intended for wider public
+  testing and upstream-facing work
+
 ## Package Families
 
 - Ubuntu/Debian:

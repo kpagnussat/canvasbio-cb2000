@@ -20,7 +20,9 @@ to the local development environment.
 - Enrollment flow: `15` stages
 - Thermal model: libfprint virtual hot-shutdown disabled for this device
 
-The driver is functional, but still under active development and tuning.
+The driver is functional, but still under active development and tuning. This
+public repository should be treated as a working `R2.5` snapshot, not as a
+fully supported end-user product line.
 
 ## Audience Guide
 
@@ -30,7 +32,7 @@ The driver is functional, but still under active development and tuning.
   see `docs/DRIVER_NOTES.md`
 - Want the development lab and helper scripts:
   see `docs/DEVELOPER_LAB.md` and `scripts/README.md`
-- Want legacy findings and deeper technical references:
+- Want deeper technical references:
   see `docs/`
 
 ## Why 15 Enrollment Stages
@@ -112,3 +114,10 @@ That lab exists to help with:
 - distro package generation
 
 See `docs/DEVELOPER_LAB.md` and `scripts/README.md`.
+
+## Support Status
+
+This public repository is a functional snapshot meant to document the current
+driver state and provide reproducible build/test paths. It is not yet presented
+as a supported public testing program. Dependency reduction and further cleanup
+are still planned before broader public testing phases.

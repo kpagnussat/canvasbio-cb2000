@@ -3,10 +3,10 @@
 ## SIGFM (algorithmic reference)
 
 - Component: SIGFM reference used for matcher parity work.
-- Upstream snapshot stored at: `reference/sigfm_upstream/`
+- Upstream repository: `https://github.com/goodix-fp-linux-dev/sigfm`
 - Upstream commit: `dc591ca03276348ad731ab78c8d722fa40b3158f`
 - Copyright: Goodix Fingerprint Linux Development
-- License: MIT (`reference/sigfm_upstream/LICENSE`)
+- License: MIT
 
 Portions of matcher behavior and validation helper logic in:
 - `src/cb2000_sigfm_matcher.c`

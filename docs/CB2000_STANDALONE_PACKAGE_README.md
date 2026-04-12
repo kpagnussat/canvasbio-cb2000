@@ -12,7 +12,7 @@ CLAHE preprocessing.
 
 ## Status
 
-**R2.5 — Stable**
+**R2.5 — Functional Snapshot**
 
 | Metric | Result |
 |--------|--------|
@@ -57,7 +57,8 @@ Validation evidence in the project history includes:
 - later R2.5 notes documenting `GAR=100%`, `FAR=0%` in limited controlled testing
 
 This does **not** yet mean broad statistical validation across many users,
-machines, or desktop environments.
+machines, or desktop environments. This public tree should be read as a working
+snapshot, not as a fully supported rollout.
 
 ---
 
