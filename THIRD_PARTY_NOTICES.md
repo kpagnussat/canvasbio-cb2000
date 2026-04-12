@@ -1,7 +1,5 @@
 # Third-Party Notices
 
-Project location: `/home/kris/Data/Estudo-Conhecimento/Projetos/CanvasMancer`
-
 ## SIGFM (algorithmic reference)
 
 - Component: SIGFM reference used for matcher parity work.

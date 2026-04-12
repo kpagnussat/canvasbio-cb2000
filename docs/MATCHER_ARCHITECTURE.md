@@ -1,7 +1,5 @@
 # CB2000 Matcher Architecture
 
-**Project location:** `/home/kris/Data/Estudo-Conhecimento/Projetos/CanvasMancer`
-
 Updated to match current driver behavior in `src/canvasbio_cb2000.c`.
 
 ## Hardware baseline

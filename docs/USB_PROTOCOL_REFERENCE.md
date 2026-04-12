@@ -243,7 +243,7 @@ Status register 0x3e returns 4 bytes after capture. Linux driver classifies at `
 |---|-----|----------|----------------|------------------|--------------|
 | 1 | SetMode FINGER_DOWN before capture | **CRITICAL** | L811, L870 | `REQ_INIT val=0x0007 idx=0` before every capture start | Missing from `capture_start_cmds[]` and `verify_start_cmds[]`. Present in `activation_finalize_cmds` (L751) and `rearm_cmds` (L800) but NOT repeated before capture. |
 | 2 | Double capture (idx=5123) | **MAJOR** | L860, L918, L5372 | FUN_18003110c does TWO captures (arg 4 + arg 5), two 5120B buffers | Single capture only. Phase 2 quality probe exists (L812-820) but first full image read not implemented. |
-| 3 | Short capture for verify (4 bursts) | **PLANNED** | L811-863, L870-921 | Windows uses optimized 4-burst sequence for verify/identify vs full activation | Full 52-command sequence for all actions. Historical plan archived under `archive/legacy/docs/non_core_20260411/plans/PLANO_PROXIMA_SESSAO_V80_SHORT_ARM.md`. |
+| 3 | Short capture for verify (4 bursts) | **PLANNED** | L811-863, L870-921 | Windows uses optimized 4-burst sequence for verify/identify vs full activation | Full 52-command sequence for all actions. Historical planning note kept outside the public repository. |
 | 4 | Wakeup delay runtime config | **LOW** | L98 | Implicit in Windows timings | Hardcoded 500ms. Plan: `CB2000_WAKEUP_DELAY_MS` env var. |
 | 5 | Duplicate quality ACK queries | **NONE** | L928-933 | Two identical `a8:3e` queries | Already correctly implemented. |
 | 6 | Activation sequence | **NONE** | L631-756 | Full register config per RE/PCAP | Correctly implemented, parity verified. |

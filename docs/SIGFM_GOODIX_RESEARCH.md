@@ -1,7 +1,5 @@
 # SIGFM & Goodix Driver Research
 
-**Project location:** `/home/kris/Data/Estudo-Conhecimento/Projetos/CanvasMancer`
-
 Date: 2026-02-25
 
 ## Sources
