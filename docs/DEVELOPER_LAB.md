@@ -25,21 +25,6 @@ The lab covers:
 The scripts are there to reduce friction for technical contributors, not to
 promise a universal one-command install experience for all users.
 
-## Public Boundary
-
-Some internal workflow remains intentionally out of scope for the public
-repository narrative.
-
-Examples of things that should not be central in public-facing docs:
-
-- local indexing workflow
-- personal indexing/bootstrap routines
-- private iteration habits
-- deeply personal project-management structure
-
-Those can exist locally, but they should not define the public explanation of
-the repository.
-
 ## Where To Start
 
 - overall script catalog:
