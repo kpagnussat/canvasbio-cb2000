@@ -161,8 +161,8 @@ setup_venv() {
   echo -e "${C_BOLD}=== Create / Update Python venv ===${C_RESET}"
   echo "Creating venv at ${VENV_DIR}..."
   python3 -m venv "${VENV_DIR}"
-  echo "Installing dependencies from requirements.txt..."
-  "${VENV_DIR}/bin/pip" install -q -r "${PROJECT_ROOT}/requirements.txt"
+  echo "Installing dependencies from scripts/requirements.txt..."
+  "${VENV_DIR}/bin/pip" install -q -r "${PROJECT_ROOT}/scripts/requirements.txt"
   echo -e "${C_GREEN}venv OK.${C_RESET}"
 }
 

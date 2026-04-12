@@ -14,8 +14,10 @@ Portions of matcher behavior and validation helper logic in:
 
 are derived/adapted from the SIGFM upstream reference.
 
-## OpenCV (optional runtime/build dependency)
+## OpenCV (current required runtime/build dependency)
 
-- Component: OpenCV, used only by optional helper `libcb2000_sigfm_opencv.so`.
-- Scope: validation/parity helper path, not required by default matcher path.
+- Component: OpenCV, used by the active helper `libcb2000_sigfm_opencv.so`.
+- Scope: current `R2.5` feature-mosaic enrollment/verify path. For this public
+  snapshot, that makes OpenCV a required build and runtime dependency rather
+  than an optional extra.
 - License: OpenCV license (provided by your OpenCV distribution).

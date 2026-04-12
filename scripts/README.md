@@ -421,7 +421,7 @@ Or manually:
 
 ```bash
 python3 -m venv scripts/venv
-scripts/venv/bin/pip install -r requirements.txt
+scripts/venv/bin/pip install -r scripts/requirements.txt
 ```
 
 All `*.sh` launchers activate the venv automatically if it exists.

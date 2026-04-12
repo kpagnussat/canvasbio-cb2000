@@ -126,12 +126,12 @@ canvasbio-cb2000/
 │   ├── build_libfprint_deb_ubuntu.sh   # Package for Ubuntu / Debian
 │   ├── build_libfprint_pkg_arch.sh     # Package for Arch Linux
 │   ├── build_libfprint_rpm_opensuse.sh # Package for openSUSE / Aeon / MicroOS
+│   ├── requirements.txt                # Python deps for script-side helpers
 │   └── README.md                       # Full script documentation
 ├── docs/
 │   ├── FINDINGS.md             # Technical findings (hardware, SIGFM, gates, mosaic)
 │   ├── DECISIONS.md            # Architecture decisions and rationale
 │   └── CHANGELOG.md            # Version history with GAR/FAR per release
-├── requirements.txt            # Python deps for analysis scripts
 └── LICENSE                     # LGPL-2.1-or-later
 ```
 
@@ -293,8 +293,9 @@ The current runners can also auto-attempt this fix when called with
   map, not a visual stitched fingerprint image. That is intentional.
 - **libfprint integration is still custom**: this is not an upstreamed stock
   driver package yet.
-- **The OpenCV helper is a sidecar runtime dependency**: the v2 mosaic path
-  depends on `libcb2000_sigfm_opencv.so` being built and available.
+- **The OpenCV helper is a required runtime dependency in the current
+  snapshot**: the v2 mosaic path depends on `libcb2000_sigfm_opencv.so` being
+  built and available.
 - **Same-person different-finger testing is still thinner than ideal**: the
   project history documents strong wrong-finger rejection in controlled runs,
   but not a large formal impostor dataset.

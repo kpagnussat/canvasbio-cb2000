@@ -1,7 +1,0 @@
-# CB2000 analysis scripts dependencies
-#
-# The scripts shipped in this release-oriented package currently use only the
-# Python standard library, so there are no mandatory third-party Python wheels.
-#
-# Keep this file so future optional analysis helpers can declare dependencies in
-# one place without changing the basic setup flow.

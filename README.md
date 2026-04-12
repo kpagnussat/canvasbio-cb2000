@@ -2,9 +2,10 @@
 
 Linux `libfprint` driver for the CanvasBio CB2000 fingerprint reader.
 
-This public repository is a functional `R2.5` snapshot. It is meant to
-document the current driver state, package outputs and technical rationale. It
-is not yet a fully supported public testing program.
+This public repository is a functional `R2.5` snapshot. It documents the
+current driver state, release packages and technical rationale for a working
+but still development-shaped implementation. It is not yet a polished public
+testing program or an upstream-ready submission.
 
 ## Status
 
@@ -46,12 +47,13 @@ multi-user public study.
 |-----------|-------------|
 | Compiler | `gcc`, `g++` |
 | Build system | `meson`, `ninja-build` |
-| OpenCV | 4.x (`libopencv-dev` or distro equivalent) |
+| OpenCV | 4.x (`libopencv-dev` or distro equivalent), required in the current `R2.5` path |
 | libfprint | source tree, `>= 1.94` |
 | Python | `>= 3.10` for analysis/report helpers |
 
-The current `R2.5` snapshot still depends on an OpenCV sidecar for the active
-feature-mosaic path.
+The current `R2.5` snapshot depends on an OpenCV sidecar for the active
+feature-mosaic path. In other words: for the published `R2.5` code and
+packages, OpenCV is not optional yet.
 
 ## Why 15 Enrollment Stages
 
@@ -68,6 +70,10 @@ small number of enrollment samples tends to produce:
 So the current driver uses a `15`-stage lift-and-shift enrollment flow. The
 goal is not "15 photos" as a cosmetic number. The goal is enough distinct local
 coverage to build a stronger feature mosaic from a very small sensor.
+
+In controlled tuning, shorter flows under-covered the finger area. The retained
+`15`-stage path consistently produced the strongest mosaic quality and the
+lowest later `retry` / `no-match` friction for this sensor class.
 
 Technical rationale:
 - `docs/DRIVER_NOTES.md`
@@ -86,10 +92,11 @@ Current division of work:
 - `src/cb2000_sigfm_matcher.c`
   in-driver SIGFM matcher core in C
 - `src/cb2000_sigfm_opencv_helper.cpp`
-  OpenCV helper for feature extraction/alignment/mosaic support
+  OpenCV helper for feature extraction, alignment and mosaic support
 
 The longer-term direction is to remove or replace this dependency, but that work
-has not been completed in `R2.5`.
+has not been completed in `R2.5`. Public `R2.5` packages should therefore be
+understood as OpenCV-dependent runtime packages.
 
 ## Why Thermal Override Is Enabled
 
@@ -113,6 +120,9 @@ Three realistic paths exist today.
 This is the preferred path for anyone evaluating `R2.5` as a snapshot.
 
 See `releases/README.md` for the package list and expected filenames.
+The published runtime packages carry their runtime dependency metadata, so the
+native package manager should pull the required OpenCV runtime pieces
+automatically. Manual source builds still need the OpenCV development package.
 
 ### 2. Use the build/lab scripts
 
@@ -155,6 +165,11 @@ The current distro package families are:
 Only the runtime/install packages should be attached to public releases. Do not
 attach debug, debugsource, tests or devel artifacts unless there is a specific
 technical reason.
+
+Package names are intentionally distro-native rather than globally identical.
+That keeps each package aligned with the host package manager's dependency and
+replacement model while still publishing exactly one runtime artifact per distro
+family in public releases.
 
 ## Repository Layout
 
