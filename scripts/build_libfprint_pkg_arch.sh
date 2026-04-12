@@ -223,6 +223,17 @@ package() {
       "\${pkgdir}/etc/udev/rules.d/99-canvasbio.rules"
   install -Dm644 "\${srcdir}/50-canvasbio-fprint.rules" \
       "\${pkgdir}/etc/polkit-1/rules.d/50-canvasbio-fprint.rules"
+
+  # Release assets should carry runtime payload only.
+  rm -rf \
+      "\${pkgdir}/usr/include" \
+      "\${pkgdir}/usr/lib/installed-tests" \
+      "\${pkgdir}/usr/share/gir-1.0" \
+      "\${pkgdir}/usr/share/installed-tests"
+  rm -f \
+      "\${pkgdir}/usr/lib/libfprint-2.so" \
+      "\${pkgdir}/usr/lib/pkgconfig/libfprint-2.pc"
+  rmdir --ignore-fail-on-non-empty "\${pkgdir}/usr/lib/pkgconfig" 2>/dev/null || true
 }
 PKGBUILD
 
@@ -240,7 +251,10 @@ echo -e "${GREEN}>>> Building Arch package (.pkg.tar.zst)...${NC}"
 cd "${BUILD_DIR}"
 makepkg -sf --noconfirm --skipinteg
 
-PKG_FILE=$(find "${BUILD_DIR}" -name "*.pkg.tar.zst" | head -1)
+PKG_FILE=$(find "${BUILD_DIR}" -maxdepth 1 \
+    -name "libfprint-canvasbio-${PKG_VERSION}-${PKG_REL}-*.pkg.tar.zst" \
+    | grep -v -- "-debug-" \
+    | head -1)
 
 if [[ -z "${PKG_FILE}" ]]; then
     echo -e "${RED}ERROR: package not found after build.${NC}"

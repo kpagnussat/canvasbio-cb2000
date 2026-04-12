@@ -155,6 +155,7 @@ if ! grep -qiE "ubuntu|debian" /etc/os-release 2>/dev/null; then
 fi
 
 echo -e "${GREEN}>>> Installing build dependencies...${NC}"
+export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update -qq
 sudo apt-get install -y --no-install-recommends \
     dpkg-dev debhelper \
@@ -204,6 +205,18 @@ install -m 0644 "${PROJECT_ROOT}/tools/99-canvasbio.rules" "${UDEV_DIR}/99-canva
 install -m 0644 "${PROJECT_ROOT}/README.md" "${DOC_DIR}/README.md"
 install -m 0644 "${PROJECT_ROOT}/LICENSE" "${DOC_DIR}/LICENSE"
 
+# Keep the release package runtime-only. Development headers, pkg-config files,
+# GIR sources and installed-tests belong in private lab builds, not public assets.
+rm -rf \
+    "${STAGE_DIR}/usr/include" \
+    "${STAGE_DIR}/usr/libexec/installed-tests" \
+    "${STAGE_DIR}/usr/share/gir-1.0" \
+    "${STAGE_DIR}/usr/share/installed-tests"
+rm -f \
+    "${HELPER_DIR}/libfprint-2.so" \
+    "${HELPER_DIR}/pkgconfig/libfprint-2.pc"
+rmdir --ignore-fail-on-non-empty "${HELPER_DIR}/pkgconfig" 2>/dev/null || true
+
 if [[ "${INCLUDE_POLKIT_RULE}" == "1" ]]; then
     mkdir -p "${POLKIT_DIR}"
     cat > "${POLKIT_DIR}/50-canvasbio-fprint.rules" <<'POLKIT'
@@ -215,6 +228,28 @@ polkit.addRule(function(action, subject) {
 POLKIT
 fi
 
+mkdir -p "${BUILD_DIR}/debian"
+cat > "${BUILD_DIR}/debian/control" <<EOF
+Source: ${PACKAGE_NAME}
+Section: libs
+Priority: optional
+Maintainer: CanvasBio CB2000 Test Build <canvasbio@local>
+Standards-Version: 4.7.0
+
+Package: ${PACKAGE_NAME}
+Architecture: ${ARCH}
+Description: CanvasBio CB2000 tester build of libfprint with helper and host rules
+ Runtime package used to compute shlib dependencies for the release asset build.
+EOF
+
+dpkg-shlibdeps \
+    -T"${DEBIAN_DIR}/substvars" \
+    -l"${HELPER_DIR}" \
+    "${HELPER_DIR}/libfprint-2.so.2.0.0" \
+    "${HELPER_DIR}/libcb2000_sigfm_opencv.so"
+
+SHLIB_DEPS="$(sed -n 's/^shlibs:Depends=//p' "${DEBIAN_DIR}/substvars")"
+
 cat > "${DEBIAN_DIR}/control" <<EOF
 Package: ${PACKAGE_NAME}
 Version: ${CUSTOM_VERSION}
@@ -222,7 +257,7 @@ Section: libs
 Priority: optional
 Architecture: ${ARCH}
 Maintainer: CanvasBio CB2000 Test Build <canvasbio@local>
-Depends: libc6, libgcc-s1, libstdc++6, libglib2.0-0, libgusb2, libnss3, libgudev-1.0-0, libusb-1.0-0, libpixman-1-0, libopencv-dev
+Depends: ${SHLIB_DEPS}
 Provides: libfprint-2-2
 Replaces: libfprint-2-2
 Conflicts: libfprint-2-2

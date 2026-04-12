@@ -269,6 +269,13 @@ Build timestamp: ${TIMESTAMP}
 install -Dm755 %{SOURCE1} %{buildroot}%{_libdir}/libcb2000_sigfm_opencv.so
 install -Dm644 %{SOURCE2} %{buildroot}%{_sysconfdir}/udev/rules.d/99-canvasbio.rules
 install -Dm644 %{SOURCE3} %{buildroot}%{_sysconfdir}/polkit-1/rules.d/50-canvasbio-fprint.rules
+rm -rf %{buildroot}%{_includedir}/libfprint-2
+rm -rf %{buildroot}%{_libexecdir}/installed-tests
+rm -rf %{buildroot}%{_datadir}/gir-1.0
+rm -rf %{buildroot}%{_datadir}/installed-tests
+rm -f %{buildroot}%{_libdir}/libfprint-2.so
+rm -f %{buildroot}%{_libdir}/pkgconfig/libfprint-2.pc
+rmdir %{buildroot}%{_libdir}/pkgconfig 2>/dev/null || :
 
 %post
 ldconfig
@@ -276,14 +283,9 @@ ldconfig
 %files
 %license COPYING
 %{_libdir}/libfprint-2.so*
-%{_libdir}/pkgconfig/libfprint-2.pc
 %{_libdir}/girepository-1.0/
 %{_libdir}/libcb2000_sigfm_opencv.so
-%{_includedir}/libfprint-2/
-%{_datadir}/gir-1.0/FPrint-2.0.gir
-%{_datadir}/installed-tests/libfprint-2/
 %{_datadir}/metainfo/org.freedesktop.libfprint.metainfo.xml
-%{_libexecdir}/installed-tests/libfprint-2/
 %{_prefix}/lib/udev/hwdb.d/60-autosuspend-libfprint-2.hwdb
 %{_prefix}/lib/udev/rules.d/70-libfprint-2.rules
 %config(noreplace) %{_sysconfdir}/udev/rules.d/99-canvasbio.rules
@@ -298,7 +300,8 @@ echo -e "${GREEN}>>> Building RPM (openSUSE)...${NC}"
 rpmbuild --define "_topdir ${RPMBUILD_DIR}" -bb \
     "${RPMBUILD_DIR}/SPECS/libfprint_custom.spec"
 
-RPM_PATH=$(find "${RPMBUILD_DIR}/RPMS" -name "*.rpm" \
+RPM_PATH=$(find "${RPMBUILD_DIR}/RPMS" \
+    -name "libfprint2-canvasbio-${SPEC_VERSION}-${RELEASE_TAG}*.rpm" \
     | grep -v "debug" | grep -v "devel" | head -1)
 
 if [[ -z "${RPM_PATH}" ]]; then

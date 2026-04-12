@@ -216,7 +216,7 @@ cd "${RPMBUILD_DIR}/SPECS"
 sed -i "s/^Release:.*/Release:        ${RELEASE_TAG}%{?dist}/" libfprint_custom.spec
 sed -i "s|^Source0:.*|Source0:        libfprint-v%{version}.tar.bz2|" libfprint_custom.spec
 sed -i "s|^Source0:.*|&\nSource1:        libcb2000_sigfm_opencv.so\nSource2:        99-canvasbio.rules\nSource3:        50-canvasbio-fprint.rules|" libfprint_custom.spec
-sed -i "s|^%install|%install\ninstall -Dm755 %{SOURCE1} %{buildroot}%{_libdir}/libcb2000_sigfm_opencv.so\ninstall -Dm644 %{SOURCE2} %{buildroot}%{_sysconfdir}/udev/rules.d/99-canvasbio.rules\ninstall -Dm644 %{SOURCE3} %{buildroot}%{_sysconfdir}/polkit-1/rules.d/50-canvasbio-fprint.rules\n|" libfprint_custom.spec
+perl -0pi -e 's/^%install\n/%install\ninstall -Dm755 %{SOURCE1} %{buildroot}%{_libdir}\/libcb2000_sigfm_opencv.so\ninstall -Dm644 %{SOURCE2} %{buildroot}%{_sysconfdir}\/udev\/rules.d\/99-canvasbio.rules\ninstall -Dm644 %{SOURCE3} %{buildroot}%{_sysconfdir}\/polkit-1\/rules.d\/50-canvasbio-fprint.rules\nrm -rf %{buildroot}%{_includedir}\/libfprint-2\nrm -rf %{buildroot}%{_libexecdir}\/installed-tests\nrm -rf %{buildroot}%{_datadir}\/gir-1.0\nrm -rf %{buildroot}%{_datadir}\/installed-tests\nrm -f %{buildroot}%{_libdir}\/libfprint-2.so\nrm -f %{buildroot}%{_libdir}\/pkgconfig\/libfprint-2.pc\nrmdir %{buildroot}%{_libdir}\/pkgconfig 2>\/dev\/null || :\n/m' libfprint_custom.spec
 sed -i "s|^%changelog|%post\nldconfig\n\n%changelog|" libfprint_custom.spec
 sed -i "s|^%files$|%files\n%{_libdir}/libcb2000_sigfm_opencv.so\n%config(noreplace) %{_sysconfdir}/udev/rules.d/99-canvasbio.rules\n%config(noreplace) %{_sysconfdir}/polkit-1/rules.d/50-canvasbio-fprint.rules|" libfprint_custom.spec
 
