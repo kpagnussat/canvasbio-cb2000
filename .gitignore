@@ -1,0 +1,19 @@
+# Build outputs
+build/
+*.so
+*.o
+
+# Test/runtime artifacts
+test/
+logs/
+*.raw
+*.pgm
+*.variant
+test-storage.variant
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+scripts/venv/

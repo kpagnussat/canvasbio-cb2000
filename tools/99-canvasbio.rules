@@ -1,0 +1,10 @@
+# CanvasBio CB2000 Fingerprint Reader
+# Copy to /etc/udev/rules.d/ and run:
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+
+# VID 2DF0 PID 0003
+SUBSYSTEM=="usb", ATTR{idVendor}=="2df0", ATTR{idProduct}=="0003", MODE="0666"
+
+# VID 2DF0 PID 0007 (alternate)
+SUBSYSTEM=="usb", ATTR{idVendor}=="2df0", ATTR{idProduct}=="0007", MODE="0666"
