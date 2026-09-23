@@ -221,10 +221,10 @@ const Cb2000Command cb2000_capture_frame_end_cmds[] = {
     {CMD_CTRL_IN,  SPI_STATUS, 0x0000, 0, NULL, 4},
     {CMD_CTRL_OUT, SPI_XFER,   0x0003, 4, NULL, 0},
     {CMD_BULK_OUT, 0, 0, 0, data_cap_3e, 4},
-    {CMD_BULK_IN,  0, 0, 0, NULL, 4},
+    {CMD_BULK_IN,  CB2000_STORE_ZONES_CAPTURE_1, 0, 0, NULL, 4},
     {CMD_CTRL_OUT, SPI_XFER,   0x0003, 4, NULL, 0},
     {CMD_BULK_OUT, 0, 0, 0, data_cap_3e, 4},
-    {CMD_BULK_IN,  0, 0, 0, NULL, 4},
+    {CMD_BULK_IN,  CB2000_STORE_ZONES_CAPTURE_2, 0, 0, NULL, 4},
     {CMD_END, 0, 0, 0, NULL, 0}
 };
 
@@ -377,7 +377,7 @@ const Cb2000Command cb2000_lift_arm_cmds[] = {
 const Cb2000Command cb2000_irq_read_cmds[] = {
     {CMD_CTRL_OUT, SPI_XFER,   0x0003, 3, NULL, 0},
     {CMD_BULK_OUT, 0, 0, 0, data_cap_read_08, 3},
-    {CMD_BULK_IN,  0, 0, 0, NULL, 3},
+    {CMD_BULK_IN,  CB2000_STORE_IRQ, 0, 0, NULL, 3},
     {CMD_CTRL_OUT, SPI_XFER,   0x0002, 4, NULL, 0},
     {CMD_BULK_OUT, 0, 0, 0, data_cap_09, 4},
     {CMD_CTRL_IN,  SPI_STATUS, 0x0000, 0, NULL, 4},
@@ -420,7 +420,7 @@ const Cb2000Command cb2000_detect_rearm_cmds[] = {
 const Cb2000Command cb2000_zones_read_cmds[] = {
     {CMD_CTRL_OUT, SPI_XFER,   0x0003, 4, NULL, 0},
     {CMD_BULK_OUT, 0, 0, 0, data_cap_3e, 4},
-    {CMD_BULK_IN,  0, 0, 0, NULL, 4},
+    {CMD_BULK_IN,  CB2000_STORE_ZONES_DETECT, 0, 0, NULL, 4},
     {CMD_END, 0, 0, 0, NULL, 0}
 };
 

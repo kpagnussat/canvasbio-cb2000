@@ -19,7 +19,7 @@ it is and any other fingerprint reader keeps working.
 On Ubuntu 26.04:
 
 ```sh
-sudo apt install ./libfprint-2-tod1-canvasbio-cb2000_1.0.0_amd64.deb
+sudo apt install ./libfprint-2-tod1-canvasbio-cb2000_1.0.1_amd64.deb
 fprintd-enroll
 fprintd-verify
 ```
@@ -80,6 +80,9 @@ the module and the reader enrolled a finger, accepted it 5 times out of 5,
 refused a finger that was not enrolled 5 times out of 5, and survived a
 cancelled verify. That is a check that the package works end to end on its
 distribution, not an accuracy figure; the accuracy figures are the ones below.
+Those runs were made with 1.0.0. 1.0.1 changes only how the driver files four
+USB replies, the same on every distribution, and was run on the sensor with
+the device test (*Try it without installing*), not on the live images again.
 
 **Fedora and Arch replace your system libfprint.** On those distributions the
 library with TOD support is not the one your distribution ships: it declares
@@ -108,7 +111,7 @@ built with TOD, so the module is all you need and nothing about your
 libfprint changes:
 
 ```sh
-sudo zypper install --allow-unsigned-rpm ./libfprint-2-tod1-canvasbio-cb2000-1.0.0-1.opensuse.x86_64.rpm
+sudo zypper install --allow-unsigned-rpm ./libfprint-2-tod1-canvasbio-cb2000-1.0.1-1.opensuse.x86_64.rpm
 ```
 
 The package is not signed. Without `--allow-unsigned-rpm`, `zypper` stops at
@@ -124,7 +127,7 @@ COPR:
 
 ```sh
 sudo dnf copr enable ferdiu/libfprint-tod
-sudo dnf install --allowerasing ./libfprint-2-tod1-canvasbio-cb2000-1.0.0-1.fc44.x86_64.rpm
+sudo dnf install --allowerasing ./libfprint-2-tod1-canvasbio-cb2000-1.0.1-1.fc44.x86_64.rpm
 ```
 
 That pulls in `libfprint-tod`, which **takes the place of your system

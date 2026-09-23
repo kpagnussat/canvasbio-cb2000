@@ -114,11 +114,6 @@ cb2000_cmd_type_to_str(Cb2000CmdType type)
     }
 }
 
-/* Positions (0-based) of the two coverage register reads in
- * cb2000_capture_frame_end_cmds (the BULK_IN entries of the table). */
-#define CB2000_FRAME_END_ZONES_READ_1   5
-#define CB2000_FRAME_END_ZONES_READ_2   8
-
 /*
  * Logs the first bytes of each read in a sequence, and keeps the coverage
  * register and interrupt status replies for the cycle state machine.
@@ -167,30 +162,35 @@ cb2000_log_cmd_rx_data(FpDevice *dev,
                hex);
     }
 
-    /* Coverage register reads: the one after detection (detect_zones) and
-     * the two of the frame-end table (after each image). */
-    if (cmd->type == CMD_BULK_IN && transfer->actual_length >= 4) {
-        gsize copy_len = MIN(transfer->actual_length, (gsize)4);
+    /* Coverage register and interrupt status replies, kept where the
+     * table entry says (Cb2000ReplyStore, in request). */
+    if (cmd->type == CMD_BULK_IN) {
+        switch ((Cb2000ReplyStore) cmd->request) {
+        case CB2000_STORE_ZONES_DETECT:
+            self->zones_reply_detect_len = MIN(transfer->actual_length,
+                                               sizeof(self->zones_reply_detect));
+            memcpy(self->zones_reply_detect, transfer->buffer,
+                   self->zones_reply_detect_len);
+            break;
+        case CB2000_STORE_ZONES_CAPTURE_1:
+        case CB2000_STORE_ZONES_CAPTURE_2:
+        {
+            guint k = (cmd->request == CB2000_STORE_ZONES_CAPTURE_1) ? 0 : 1;
 
-        if (g_strcmp0(ctx->seq_name, "detect_zones") == 0) {
-            memcpy(self->zones_reply_detect, transfer->buffer, copy_len);
-            self->zones_reply_detect_len = copy_len;
-        } else if (g_strcmp0(ctx->seq_name, "capture_frame_end") == 0 &&
-                   (ctx->cmd_index == CB2000_FRAME_END_ZONES_READ_1 ||
-                    ctx->cmd_index == CB2000_FRAME_END_ZONES_READ_2)) {
-            guint k = (ctx->cmd_index == CB2000_FRAME_END_ZONES_READ_1) ? 0 : 1;
-            memcpy(self->zones_reply_capture[k], transfer->buffer, copy_len);
-            self->zones_reply_capture_len[k] = copy_len;
+            self->zones_reply_capture_len[k] = MIN(transfer->actual_length,
+                                                   sizeof(self->zones_reply_capture[k]));
+            memcpy(self->zones_reply_capture[k], transfer->buffer,
+                   self->zones_reply_capture_len[k]);
+            break;
         }
-    }
-
-    /* Interrupt status read ("a8 08", 3-byte reply) of the finger wait
-     * (detect_irq) and of the lift loop (lift_irq). */
-    if (cmd->type == CMD_BULK_IN && g_str_has_suffix(ctx->seq_name, "_irq")) {
-        gsize copy_len = MIN(transfer->actual_length, sizeof(self->irq_reply));
-
-        memcpy(self->irq_reply, transfer->buffer, copy_len);
-        self->irq_reply_len = copy_len;
+        case CB2000_STORE_IRQ:
+            self->irq_reply_len = MIN(transfer->actual_length,
+                                      sizeof(self->irq_reply));
+            memcpy(self->irq_reply, transfer->buffer, self->irq_reply_len);
+            break;
+        case CB2000_STORE_NONE:
+            break;
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 # target distribution.
 #
 Name:           libfprint-2-tod1-canvasbio-cb2000
-Version:        1.0.0
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)
 
@@ -76,6 +76,10 @@ fi
 %{_libdir}/libfprint-2/tod-1/libfprint-tod-canvasbio-cb2000.so
 
 %changelog
+* Wed Sep 23 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.1-1
+- The coverage and interrupt status replies are filed by a tag on the
+  command table instead of by sequence name; nothing changes on the wire.
+
 * Thu Sep 17 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.0-1
 - First release: libfprint TOD module for the CanvasBio CB2000 (2df0:0003),
   matching with an independently written engine that uses the sensor's

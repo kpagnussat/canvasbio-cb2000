@@ -85,6 +85,22 @@ typedef struct {
 } Cb2000Command;
 
 /*
+ * CMD_BULK_IN uses request to say where its reply is kept for the cycle
+ * state machine (a bulk read has no request of its own). The tag sits on the
+ * table entry itself, so reordering a table or renaming a sequence cannot
+ * silently stop a reply from being stored: an incomplete coverage reply
+ * reads as -1 zones, which never blocks a touch, so a lost reply would turn
+ * the coverage gate off without any error.
+ */
+typedef enum {
+    CB2000_STORE_NONE = 0,
+    CB2000_STORE_ZONES_DETECT,       /* 0x3e after the detection */
+    CB2000_STORE_ZONES_CAPTURE_1,    /* first 0x3e after an image */
+    CB2000_STORE_ZONES_CAPTURE_2,    /* second 0x3e after an image */
+    CB2000_STORE_IRQ,                /* "a8 08" interrupt status */
+} Cb2000ReplyStore;
+
+/*
  * CMD_EXPECT follows a register read and waits for one of the values the
  * Windows driver waits for, as its loops do ("read, compare, Sleep, read
  * again"):

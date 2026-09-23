@@ -8,7 +8,7 @@
 # attached to the release (packaging/make-tarball.sh prints it).
 
 pkgname=libfprint-2-tod1-canvasbio-cb2000
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)"
 arch=('x86_64')

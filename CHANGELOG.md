@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.0.1
+
+- The replies the driver keeps from the sensor (the coverage register after
+  the detection and after each image, and the interrupt status) are filed by
+  a tag on their entry in the command table, instead of by matching the
+  sequence name and the position of the read. Nothing changes on the wire or
+  in any decision. Before, renaming a sequence or reordering a table would
+  have turned the coverage check off without any error: a missing coverage
+  reply counts as covered, so an empty touch would reach the matcher, which
+  refuses it as a retry.
+- Tested on the sensor with the device test, with the debug output checked
+  for the coverage replies. The openSUSE, Fedora and Arch packages were not
+  installed again on their live images for this release: they are built from
+  the same packaging as 1.0.0, which was, and the change touches nothing that
+  differs between distributions.
+
 ## 1.0.0
 
 First release. The repository was rebuilt from scratch for it, so there is no

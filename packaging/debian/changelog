@@ -1,3 +1,10 @@
+libfprint-2-tod1-canvasbio-cb2000 (1.0.1) resolute; urgency=medium
+
+  * The coverage and interrupt status replies are filed by a tag on the
+    command table instead of by sequence name; nothing changes on the wire.
+
+ -- Kristofer Pagnussat <kristofer.pagnussat@gmail.com>  Wed, 23 Sep 2026 18:30:00 -0300
+
 libfprint-2-tod1-canvasbio-cb2000 (1.0.0) resolute; urgency=medium
 
   * First release: libfprint TOD module for the CanvasBio CB2000 (2df0:0003),
