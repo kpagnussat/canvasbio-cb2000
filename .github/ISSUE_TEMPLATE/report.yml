@@ -1,0 +1,73 @@
+name: Working setup or untested distribution
+description: Tell us the driver works, or how it behaves outside the supported setup
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This project has one laptop, one sensor unit and one person's
+        fingers. A report that the driver works on your machine is the
+        single most useful thing anyone can send, and it is what a future
+        request to merge this driver upstream will rest on.
+
+        Do not attach fingerprint images. Nothing here asks for one.
+  - type: input
+    id: laptop
+    attributes:
+      label: Laptop model
+      placeholder: Samsung Galaxy Book2 360
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: USB identifier
+      description: Output of `lsusb | grep 2df0`.
+      placeholder: "Bus 003 Device 004: ID 2df0:0003"
+    validations:
+      required: true
+  - type: input
+    id: distro
+    attributes:
+      label: Distribution and package
+      description: Which distribution, and which package or build you installed.
+      placeholder: Fedora 44, the module .rpm from the release
+    validations:
+      required: true
+  - type: dropdown
+    id: enroll
+    attributes:
+      label: Enrollment
+      options:
+        - Completed
+        - Completed, but took more touches than it should
+        - Never completed
+    validations:
+      required: true
+  - type: dropdown
+    id: verify
+    attributes:
+      label: Verifying the finger you enrolled
+      options:
+        - Accepted most of the time
+        - Accepted sometimes
+        - Never accepted
+    validations:
+      required: true
+  - type: dropdown
+    id: impostor
+    attributes:
+      label: A finger you did not enroll
+      description: Please try this one. It is the number nobody else can measure for us.
+      options:
+        - Always refused
+        - Accepted at least once
+        - Not tried yet
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: |
+        How many attempts you tried, which desktop you use, whether the login
+        and lock screens work, and anything that surprised you.

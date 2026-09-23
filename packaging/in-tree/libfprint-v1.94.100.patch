@@ -1,0 +1,33 @@
+--- a/meson.build	2026-09-10 14:20:14.050759224 -0300
++++ b/meson.build	2026-09-10 14:20:14.067756263 -0300
+@@ -147,6 +147,7 @@
+     'focaltech_moc': {},
+     'mafpmoc': {},
+     'secugen': {},
++    'canvasbio_cb2000': {},
+ 
+     # SPI driver (non-optional if SPI is available)
+     'elanspi': { 'spi': true, 'helper': ['udev'], 'optional': not have_spi },
+--- a/libfprint/meson.build	2026-09-10 14:20:14.051736655 -0300
++++ b/libfprint/meson.build	2026-09-10 14:20:14.067809141 -0300
+@@ -139,6 +139,20 @@
+     'focaltech_moc' : files('drivers/focaltech_moc/focaltech_moc.c'),
+     'mafpmoc' : files('drivers/mafpmoc/mafpmoc.c'),
+     'secugen' : files('drivers/secugen.c'),
++    'canvasbio_cb2000' : files(
++        'drivers/canvasbio_cb2000/canvasbio_cb2000.c',
++        'drivers/canvasbio_cb2000/cb2000_core.c',
++        'drivers/canvasbio_cb2000/cb2000_engine.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_adapter.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_compare.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_enroll.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_minutiae.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_pet.c',
++        'drivers/canvasbio_cb2000/cb2000_engine_score.c',
++        'drivers/canvasbio_cb2000/cb2000_print.c',
++        'drivers/canvasbio_cb2000/cb2000_protocol.c',
++        'drivers/canvasbio_cb2000/cb2000_tables.c',
++    ),
+ }
+ 
+ helper_sources = {

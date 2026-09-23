@@ -1,0 +1,13 @@
+/*
+ * Linker version script for the TOD module.
+ *
+ * Only the TOD entry point is exported, so nothing in the module collides
+ * with other modules loaded by fprintd, whatever the compiler's visibility
+ * defaults.
+ */
+{
+  global:
+    fpi_tod_shared_driver_get_type;
+  local:
+    *;
+};

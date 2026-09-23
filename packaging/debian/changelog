@@ -1,0 +1,7 @@
+libfprint-2-tod1-canvasbio-cb2000 (1.0.0) resolute; urgency=medium
+
+  * First release: libfprint TOD module for the CanvasBio CB2000 (2df0:0003),
+    matching with an independently written engine that uses the sensor's
+    Windows engine as its compatibility target.
+
+ -- Kristofer Pagnussat <kristofer.pagnussat@gmail.com>  Thu, 17 Sep 2026 16:00:00 -0300

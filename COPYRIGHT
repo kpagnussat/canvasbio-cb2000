@@ -1,0 +1,23 @@
+canvasbio-cb2000
+================
+
+Copyright (C) 2025-2026 Kristofer Pagnussat
+
+libfprint driver for the CanvasBio CB2000 fingerprint sensor (USB 2df0:0003).
+
+Every source file here was written for this project and is distributed under
+LGPL-2.1-or-later, as stated in each file header. The LGPL-2.1 license text
+is in `LICENSE`. No third-party code is included and nothing is vendored.
+
+The driver is built against libfprint's internal driver API, either as a
+libfprint-tod module or inside a pinned libfprint tree:
+
+  https://gitlab.freedesktop.org/libfprint/libfprint  (LGPL-2.1-or-later)
+
+No libfprint source is part of this repository.
+
+The behavior of the CanvasBio Windows driver and engine was studied to build
+this one. No vendor code is reproduced, transliterated or included in any
+form: only derived facts, which are recorded in `docs/PROTOCOL.md` and
+`docs/RESEARCH.md`. CanvasBio, Samsung and Realtek are trademarks of their
+owners and are named here only to say which hardware this driver is for.

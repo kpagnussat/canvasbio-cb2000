@@ -1,0 +1,21 @@
+# Build output
+/build*/
+*.o
+*.so
+
+# Packaging output
+/dist/
+
+# Fingerprint images, raw captures and USB traces must never be committed
+*.pgm
+*.raw
+*.pcap
+*.pcapng
+
+# Editors
+*.swp
+*~
+
+# Local drafts and test machine credentials
+*.draft.md
+*.credentials

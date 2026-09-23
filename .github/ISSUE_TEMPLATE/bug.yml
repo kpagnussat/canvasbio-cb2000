@@ -1,0 +1,69 @@
+name: Bug report
+description: The driver misbehaves on a supported setup
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Supported setup: Ubuntu 26.04 (or a flavour on the same base) with the
+        `.deb` from the Releases page. The in-tree build, containers and
+        other distributions are unsupported.
+
+        Running it on Fedora, openSUSE or Arch, or on another laptop model?
+        That is not a bug report, it is useful information: use the
+        "Working setup or untested distribution" form instead.
+  - type: checkboxes
+    id: supported
+    attributes:
+      label: Setup
+      options:
+        - label: I installed the released `.deb` on Ubuntu 26.04 or a flavour on the same base.
+          required: true
+        - label: My device is `2df0:0003` (check with `lsusb | grep 2df0`).
+          required: true
+  - type: input
+    id: laptop
+    attributes:
+      label: Laptop model
+      placeholder: Samsung Galaxy Book3 360
+    validations:
+      required: true
+  - type: input
+    id: backend
+    attributes:
+      label: Driver line from the log
+      description: The `Opening CanvasBio CB2000 device [...]` line from the debug log below (`grep 'Opening CanvasBio' fprintd.log`).
+      placeholder: "Opening CanvasBio CB2000 device [1.0.0+1a2b3c4, matcher: engine]"
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where it happens
+      options:
+        - fprintd-enroll / fprintd-verify
+        - GNOME Settings
+        - KDE System Settings
+        - Login or lock screen
+        - sudo (PAM)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Debug log
+      description: |
+        Run fprintd by hand with debug output while reproducing the problem:
+
+            sudo systemctl stop fprintd
+            sudo G_MESSAGES_DEBUG=all /usr/libexec/fprintd --no-timeout 2>&1 | tee fprintd.log
+
+        Stop it with Ctrl+C when done, then `sudo systemctl start fprintd`.
+        Attach `fprintd.log`. It contains no fingerprint images.
+      render: text

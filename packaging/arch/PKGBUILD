@@ -1,0 +1,32 @@
+# Maintainer: Kristofer Pagnussat <kristofer.pagnussat@gmail.com>
+#
+# The module only, built against the libfprint-tod of the AUR, which is where
+# the tod_driversdir the module installs into comes from. Nothing here
+# rebuilds or replaces libfprint.
+#
+# sha256sums is filled in at release time with the sha256 of the tarball
+# attached to the release (packaging/make-tarball.sh prints it).
+
+pkgname=libfprint-2-tod1-canvasbio-cb2000
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)"
+arch=('x86_64')
+url="https://github.com/kpagnussat/canvasbio-cb2000"
+license=('LGPL-2.1-or-later')
+depends=('libfprint-tod' 'glib2' 'libgusb')
+makedepends=('meson' 'ninja' 'pkgconf')
+optdepends=('fprintd: enrol and verify fingerprints')
+source=("$url/releases/download/v$pkgver/canvasbio-cb2000-$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+    arch-meson "canvasbio-cb2000-$pkgver" build
+    meson compile -C build
+}
+
+package() {
+    meson install -C build --destdir "$pkgdir"
+    install -Dm644 "canvasbio-cb2000-$pkgver/LICENSE" \
+        "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

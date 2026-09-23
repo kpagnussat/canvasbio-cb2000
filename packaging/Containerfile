@@ -1,0 +1,20 @@
+# Maintainer build environment for the supported TOD module.
+# Pinned by digest so every release is built from the same base.
+FROM docker.io/library/ubuntu:26.04@sha256:d31acef2a964b6df1f2b7e20a1525c4f2378024e087a4f8a8a9a4247e6a79573
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      build-essential \
+      ca-certificates \
+      debhelper \
+      dpkg-dev \
+      git \
+      libfprint-2-tod-dev \
+      libglib2.0-dev \
+      libgusb-dev \
+      meson \
+      ninja-build \
+      pkg-config \
+ && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /src

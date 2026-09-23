@@ -1,0 +1,10 @@
+option('tools',
+       type: 'boolean',
+       value: false,
+       description: 'Build developer tools (cb2000-collect, cb2000-harness, ' +
+                    'cb2000-engine-test, cb2000-capture-test). Never packaged.')
+
+option('selftest',
+       type: 'boolean',
+       value: false,
+       description: 'Build cb2000-selftest, the on-device check that tests/device/ runs in a container. Never packaged.')

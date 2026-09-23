@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# fprintd loads TOD modules at startup; restart it if it is running.
+if [ "$1" = "configure" ] && [ -d /run/systemd/system ]; then
+    systemctl try-restart fprintd.service >/dev/null 2>&1 || true
+fi
+
+#DEBHELPER#
+
+exit 0

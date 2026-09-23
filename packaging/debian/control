@@ -1,0 +1,30 @@
+Source: libfprint-2-tod1-canvasbio-cb2000
+Section: libs
+Priority: optional
+Maintainer: Kristofer Pagnussat <kristofer.pagnussat@gmail.com>
+Build-Depends: debhelper-compat (= 13),
+               git,
+               libfprint-2-tod-dev,
+               libglib2.0-dev,
+               libgusb-dev,
+               meson,
+               ninja-build,
+               pkg-config
+Standards-Version: 4.7.0
+Homepage: https://github.com/kpagnussat/canvasbio-cb2000
+Rules-Requires-Root: no
+
+Package: libfprint-2-tod1-canvasbio-cb2000
+Architecture: amd64
+Depends: libfprint-2-tod1, ${misc:Depends}, ${shlibs:Depends}
+Recommends: fprintd, libpam-fprintd
+Enhances: fprintd
+Description: CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)
+ Driver for the CanvasBio CB2000 fingerprint sensor (USB 2df0:0003), found in
+ Samsung Galaxy Book2 360 and Book3 360 laptops. It is loaded by the
+ distribution's libfprint through TOD, so the system libfprint is not replaced.
+ .
+ The 80x64 frame is too small for libfprint's minutiae matcher, so the driver
+ matches with code written independently for this project, using documented
+ behavior of the sensor's Windows matching engine as its compatibility
+ target.

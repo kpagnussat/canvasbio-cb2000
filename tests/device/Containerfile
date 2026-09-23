@@ -1,0 +1,24 @@
+# Throwaway environment for the on-device check: an Ubuntu with a TOD enabled
+# libfprint, the module built from this tree and installed where that libfprint
+# looks for it, and cb2000-selftest. Nothing here touches the host.
+FROM docker.io/library/ubuntu:26.04@sha256:d31acef2a964b6df1f2b7e20a1525c4f2378024e087a4f8a8a9a4247e6a79573
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      build-essential \
+      ca-certificates \
+      libfprint-2-tod-dev \
+      libglib2.0-dev \
+      libgusb-dev \
+      meson \
+      ninja-build \
+      pkg-config \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY . /src
+WORKDIR /src
+
+RUN meson setup build -Dselftest=true \
+ && meson install -C build
+
+ENTRYPOINT ["/src/build/cb2000-selftest"]
