@@ -4,15 +4,15 @@ Status: accepted
 
 ## Context
 
-For about a year the matcher was evaluated by touching the sensor and
-judging the result. Under that method two versions of the same matcher
-reported 25% genuine accepts with 14% false accepts and then 81% with none,
-with no way to tell how much of the difference came from the code and how
-much from the person placing the finger. Then a hardware test accepted a finger
-from the other hand twice out of five attempts, on a build that was nearly
-packaged for release.
+For about a year the matcher was tuned and evaluated by live testing on the
+sensor: change a gate, touch, record the result. Under that method two
+versions of the same matcher reported 25% genuine accepts with 14% false
+accepts and then 81% with none, with no way to tell how much of the
+difference came from the code and how much from the person placing the
+finger. Then a hardware test accepted a finger from the other hand twice
+out of five attempts, on a build that was nearly packaged for release.
 
-That was the point where testing by feel stopped being merely imprecise and
+That was the point where live testing alone stopped being merely imprecise and
 became a release risk.
 
 ## Decision
