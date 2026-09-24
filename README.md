@@ -81,8 +81,8 @@ refused a finger that was not enrolled 5 times out of 5, and survived a
 cancelled verify. That is a check that the package works end to end on its
 distribution, not an accuracy figure; the accuracy figures are the ones below.
 Those runs were made with 1.0.0. 1.0.1 changes only how the driver files four
-USB replies, the same on every distribution, and was run on the sensor with
-the device test (*Try it without installing*), not on the live images again.
+USB replies, the same on every distribution, and only the device test was run
+on it.
 
 **Fedora and Arch replace your system libfprint.** On those distributions the
 library with TOD support is not the one your distribution ships: it declares
@@ -182,6 +182,15 @@ no traffic to the sensor yet, and `--verify N` and
 One line of the output looks worse than it is: `Failed to disable USB
 persist` is libfprint writing to `/sys`, which is read only inside the
 container. It is expected and changes nothing about the reader.
+
+Some touches are answered with a message instead of `ok`, `accepted` or
+`refused`. "Move the finger to place another part of it on the sensor." comes
+during enrollment when a touch adds too little new area to the template, and
+"Please try again." (or a variant that says what to change) when a touch
+could not be used at all. They are requests for another touch, not failed
+matches: that is why an enrollment of 15 touches can take a few more, and
+why an attempt can print a message before its result. The desktop's
+fingerprint settings show the same messages.
 
 This is also the report this project most needs from another machine, since
 it ends with two counts: how often your enrolled finger was accepted, and how

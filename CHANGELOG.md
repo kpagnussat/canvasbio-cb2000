@@ -11,10 +11,10 @@
   reply counts as covered, so an empty touch would reach the matcher, which
   refuses it as a retry.
 - Tested on the sensor with the device test, with the debug output checked
-  for the coverage replies. The openSUSE, Fedora and Arch packages were not
-  installed again on their live images for this release: they are built from
-  the same packaging as 1.0.0, which was, and the change touches nothing that
-  differs between distributions.
+  for the coverage replies. The openSUSE, Fedora and Arch packages of this
+  release were not run on the sensor: they are built from the same packaging
+  as 1.0.0, and the change touches nothing that differs between
+  distributions.
 
 ## 1.0.0
 
