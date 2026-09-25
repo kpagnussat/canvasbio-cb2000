@@ -1,4 +1,4 @@
-# Canvasbio-CB2000 Linux Driver
+# CanvasBio CB2000 Linux Driver
 
 A libfprint driver for the **CanvasBio CB2000** fingerprint sensor, USB
 `2df0:0003`, the reader built into the power button at the top right of the
