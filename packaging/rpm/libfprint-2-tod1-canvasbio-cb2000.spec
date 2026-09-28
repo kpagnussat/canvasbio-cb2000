@@ -8,7 +8,7 @@
 # target distribution.
 #
 Name:           libfprint-2-tod1-canvasbio-cb2000
-Version:        1.0.1
+Version:        1.0.2
 Release:        1%{?dist}
 Summary:        CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)
 
@@ -58,6 +58,9 @@ Windows driver as its compatibility target.
 %install
 %meson_install
 
+%check
+%meson_test
+
 %post
 # fprintd loads TOD modules when it starts, so an installed module is only
 # seen after a restart. It is socket activated, so try-restart is enough.
@@ -76,6 +79,11 @@ fi
 %{_libdir}/libfprint-2/tod-1/libfprint-tod-canvasbio-cb2000.so
 
 %changelog
+* Mon Sep 28 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.2-1
+- A damaged stored print is reported as unreadable instead of as a finger
+  that does not match; hardened a distance computed from print data; the
+  offline tests run in every package build.
+
 * Wed Sep 23 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.1-1
 - The coverage and interrupt status replies are filed by a tag on the
   command table instead of by sequence name; nothing changes on the wire.

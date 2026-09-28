@@ -1,5 +1,5 @@
 project('canvasbio-cb2000', 'c',
-        version: '1.0.1',
+        version: '1.0.2',
         license: 'LGPL-2.1-or-later',
         meson_version: '>= 0.61.0',
         default_options: [
@@ -88,6 +88,11 @@ if get_option('tools')
              c_args: c_args,
              include_directories: include_directories('src'),
              install: false)
+endif
+
+# The offline tests need only GLib, so they are on by default and every
+# package build runs them (dh_auto_test, %check, check()).
+if get_option('tests')
   engine_test = executable('cb2000-engine-test',
                            files('tests/offline/cb2000-engine-test.c', 'src/cb2000_engine.c',
                                  'src/cb2000_engine_minutiae.c', 'src/cb2000_engine_pet.c',

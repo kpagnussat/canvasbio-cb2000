@@ -12,6 +12,7 @@
 #define FP_COMPONENT "canvasbio_cb2000"
 
 #include "cb2000_print.h"
+#include "cb2000_engine.h"
 
 /*
  * A print holds the engine's template buffer (cb2000_engine_enroll_add
@@ -36,6 +37,30 @@ cb2000_print_store_template(FpPrint *print, const GByteArray *tmpl)
     g_object_set(print, "fpi-data", data, NULL);
 
     fp_dbg("[ PRINT ] stored the engine template (%u bytes)", tmpl->len);
+}
+
+/*
+ * A stored template is checked in full before it joins a gallery: the
+ * container and every node record must decode. The engine alone would treat
+ * a damaged template as one that matches nothing, which the user would see
+ * as failed touches that no retry can fix; refused here, the print counts as
+ * unreadable and the driver reports a data error instead.
+ */
+static gboolean
+template_readable(const guint8 *bytes, gsize len)
+{
+    g_autoptr(GPtrArray) nodes = cb2000_engine_template_nodes(bytes, len);
+
+    if (nodes == NULL || nodes->len == 0)
+        return FALSE;
+    for (guint i = 0; i < nodes->len; i++) {
+        Cb2000EngineImage *img = cb2000_engine_node_decode(g_ptr_array_index(nodes, i));
+
+        if (img == NULL)
+            return FALSE;
+        cb2000_engine_image_free(img);
+    }
+    return TRUE;
 }
 
 GBytes *
@@ -68,6 +93,11 @@ cb2000_print_load_template(FpPrint *print)
     bytes = g_variant_get_fixed_array(buffer, &len, 1);
     if (len == 0) {
         fp_warn("[ PRINT ] empty template");
+        return NULL;
+    }
+    if (!template_readable(bytes, len)) {
+        fp_warn("[ PRINT ] the engine template in this print is damaged; "
+                "enroll the finger again");
         return NULL;
     }
     return g_bytes_new(bytes, len);

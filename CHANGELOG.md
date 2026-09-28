@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.2
+
+- A stored print whose engine template is damaged is now refused when it is
+  loaded, so the driver reports it as unreadable and asks for the finger to
+  be enrolled again. Before, the engine treated it as a template that matches
+  nothing, and every touch failed with no hint that a retry could not help.
+- A distance between minutiae, one of them read from the print file, is
+  computed in 64 bits. A forged coordinate could overflow the 32-bit sum and
+  count as close; on a print this driver wrote the result is unchanged.
+- The offline engine and capture tests are built by default and run by every
+  package build (`-Dtests=false` turns them off). They used to need
+  `-Dtools=true`, so a package could be built without running any.
+- The `.deb` is built from the release tarball, like the other three
+  packages, instead of from the working tree.
+- Releases are built from the tag by a GitHub Actions workflow instead of on
+  the maintainer's machine, and every file carries a build provenance
+  attestation: `gh attestation verify <file> --repo
+  kpagnussat/canvasbio-cb2000` shows the commit and workflow it came from.
+- Tested on the sensor with the device test. The openSUSE, Fedora and Arch
+  packages of this release were not run on the sensor.
+
 ## 1.0.1
 
 - The replies the driver keeps from the sensor (the coverage register after

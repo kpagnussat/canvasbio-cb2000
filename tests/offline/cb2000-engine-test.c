@@ -1128,9 +1128,56 @@ test_adapter(void)
  * the test exists so that removing a gate is a red test rather than a
  * crash, a giant allocation or a burnt CPU inside fprintd.
  */
+/* Score of a stripe probe with one minutia against a stripe template node
+ * holding @tmin (NULL: no template minutia), round-tripped through the node
+ * record as a stored print would be. */
+static gint
+score_with_template_minutia(const Cb2000EngineMinutia *tmin)
+{
+    guint8 frame[80 * 64], other[80 * 64];
+    const Cb2000EngineMinutia pm = { .x = 30, .y = 30, .pattern = 1 };
+    Cb2000EnginePetResult pet = { .found = TRUE, .pairs = 6 };
+    Cb2000EngineScore score;
+    Cb2000EngineImage *t, *p, *decoded;
+    g_autoptr(GBytes) record = NULL;
+
+    for (gint y = 0; y < 64; y++)
+        for (gint x = 0; x < 80; x++) {
+            frame[y * 80 + x] = x % 6 < 3 ? 0xff : 0;
+            other[y * 80 + x] = frame[y * 80 + x] ^ (x == 30 ? 0xff : 0);
+        }
+    t = cb2000_engine_image_new(frame, 80, 64);
+    p = cb2000_engine_image_new(other, 80, 64);
+    if (tmin)
+        g_array_append_val(t->minutiae, *tmin);
+    g_array_append_val(p->minutiae, pm);
+    t->feature_score = p->feature_score = 5120;
+    cb2000_engine_pack_planes(t);
+    cb2000_engine_pack_planes(p);
+    record = cb2000_engine_node_encode(t);
+    decoded = cb2000_engine_node_decode(record);
+    cb2000_engine_node_score(decoded, p, &pet, &score);
+    cb2000_engine_image_free(decoded);
+    cb2000_engine_image_free(t);
+    cb2000_engine_image_free(p);
+    return score.score;
+}
+
 static void
 test_malformed(void)
 {
+    /* A template minutia at the far corner of the 16-bit range is nowhere
+     * near the probe's: its squared distance must not wrap around 32 bits
+     * and count as close. The score equals the one with no template
+     * minutia at all. */
+    {
+        const Cb2000EngineMinutia far = { .x = -32768, .y = -32768, .pattern = 1 };
+
+        check_bool("malformed node: far minutia does not count as near",
+                   score_with_template_minutia(&far) == score_with_template_minutia(NULL),
+                   TRUE);
+    }
+
     /* Node records. */
     {
         guint8 tiny[3] = { 0 };

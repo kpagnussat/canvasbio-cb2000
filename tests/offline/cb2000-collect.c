@@ -51,6 +51,14 @@ valid_finger(const char *name)
 }
 
 /* Returns the frames that appeared in dir since the previous call. */
+
+/* g_ptr_array_sort passes pointers to the elements, not the strings. */
+static gint
+compare_names(gconstpointer a, gconstpointer b)
+{
+    return g_strcmp0(*(const gchar *const *) a, *(const gchar *const *) b);
+}
+
 static GPtrArray *
 new_frames(const char *dir, GHashTable *seen)
 {
@@ -65,7 +73,7 @@ new_frames(const char *dir, GHashTable *seen)
         g_ptr_array_add(found, g_strdup(name));
     }
     /* Timestamp-prefixed names sort chronologically. */
-    g_ptr_array_sort(found, (GCompareFunc) g_strcmp0);
+    g_ptr_array_sort(found, compare_names);
     return found;
 }
 

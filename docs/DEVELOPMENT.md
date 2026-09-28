@@ -71,8 +71,9 @@ device we think we are implementing.
 `cb2000_core` and `cb2000_engine` build without libfprint
 (GLib only).
 
-`-Dtools=true` also builds two tests, both checked against values worked out
-by hand (`meson test -C <builddir>`): `cb2000-engine-test` takes every engine
+Two tests are built by default (`-Dtests=false` turns them off) and run by
+every package build, both checked against values worked out by hand
+(`meson test -C <builddir>`): `cb2000-engine-test` takes every engine
 stage on small synthetic frames, and `cb2000-capture-test` takes the capture
 decisions of `cb2000_core.c`, that is the brightness metric, how many images
 a touch reads and with which setting, and the order the frames reach the
@@ -209,26 +210,38 @@ builds are deliberate. It is repetitive on purpose.
    when they disagree.
 2. Update `CHANGELOG.md`, then commit. The version the driver reports carries
    the commit, and the tarball refuses to build from a dirty tree.
-3. Build, in any order:
+3. Push the commit and a tag `v<version>`. The release workflow
+   (`.github/workflows/release.yml`) checks that the tag matches the version,
+   runs the four builds below with their tests, attests the files and
+   attaches them to a draft release. Build the tarball locally as well and
+   compare its sha256 with the one in the workflow log: it is reproducible,
+   so the two must match.
+4. Write the notes, with the sha256 of each file, and publish the draft.
 
-   ```sh
-   packaging/build-deb.sh            # dist/*.deb, the supported package
-   packaging/build-rpm.sh opensuse   # dist/*.opensuse.x86_64.rpm
-   packaging/build-rpm.sh fedora     # dist/*.fc44.x86_64.rpm
-   packaging/build-arch.sh           # dist/PKGBUILD and dist/*.tar.gz
-   ```
+The same builds run by hand, in any order, when there is no workflow to use:
 
-4. Attach to the release: the three packages, the `PKGBUILD` and the source
-   tarball the `PKGBUILD` downloads. Publish the sha256 of each.
-5. Check every package on the sensor before calling it tested. Boot the live
-   image of its distribution in a throwaway virtual machine with the reader
-   passed through, download the package from the release, install it with
-   the exact command the README gives, and run enroll, five verifies with
-   the enrolled finger, five with a finger that is not enrolled, and one
-   cancelled verify through `fprintd`. A live session is the cleanest test
-   there is: nothing is installed but what the README says. The README's
-   "Tested on hardware" column only says yes after this, and a command that
-   needs a flag or an answer the README does not give is a README bug.
+```sh
+packaging/build-deb.sh            # dist/*.deb, the supported package
+packaging/build-rpm.sh opensuse   # dist/*.opensuse.x86_64.rpm
+packaging/build-rpm.sh fedora     # dist/*.fc44.x86_64.rpm
+packaging/build-arch.sh           # dist/PKGBUILD and dist/*.tar.gz
+```
+
+Anyone can check that a file on the release page came from the workflow:
+
+```sh
+gh attestation verify <file> --repo kpagnussat/canvasbio-cb2000
+```
+
+Before calling a package tested, check it on the sensor. Boot the live image
+of its distribution in a throwaway virtual machine with the reader passed
+through, download the package from the release, install it with the exact
+command the README gives, and run enroll, five verifies with the enrolled
+finger, five with a finger that is not enrolled, and one cancelled verify
+through `fprintd`. A live session is the cleanest test there is: nothing is
+installed but what the README says. The README's "Tested on hardware" column
+only says yes after this, and a command that needs a flag or an answer the
+README does not give is a README bug.
 
 The Arch recipe is checked by building it, since no package is produced here:
 

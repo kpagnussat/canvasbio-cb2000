@@ -328,7 +328,12 @@ minutia_factors(const Cb2000EngineImage *t, const Cb2000EngineImage *p, Cb2000En
         inside++;
         for (guint k = 0; k < t->minutiae->len; k++) {
             const Cb2000EngineMinutia *q = &g_array_index(t->minutiae, Cb2000EngineMinutia, k);
-            const gint d2 = (q->x - X) * (q->x - X) + (q->y - Y) * (q->y - Y);
+            /* Template minutiae come from the print file, so the squares
+             * are taken in 64 bits: a forged coordinate would overflow a
+             * 32-bit sum (the PET neighbour distance does the same). On a
+             * node this engine wrote the value is unchanged. */
+            const gint64 ex = (gint64) q->x - X, ey = (gint64) q->y - Y;
+            const gint64 d2 = ex * ex + ey * ey;
             const gint lim = q->pattern == m->pattern ? MINUTIA_NEAR_SAME : MINUTIA_NEAR_OTHER;
 
             if (d2 < lim) {

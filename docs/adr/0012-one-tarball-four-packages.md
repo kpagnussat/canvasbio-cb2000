@@ -47,9 +47,10 @@ in the README.
   purpose: without the policy the module installs, the reader stays dead, and
   nothing tells the user why. A silent failure is worse than an unmet
   dependency.
-- Three distributions are packaged without a machine to test them on. They
-  are labelled as such in the README, and a report that one works is asked
-  for there.
+- The maintainer's own machine tests only the Ubuntu package routinely. The
+  other three are checked by installing each one from the release on its own
+  distribution, with the sensor attached, before it is called tested; the
+  README says which release that covers.
 - The Arch checksum cannot live in the tree, because the tarball is made from
   the tree; `build-arch.sh` fills it in on the copy that goes to the release.
 

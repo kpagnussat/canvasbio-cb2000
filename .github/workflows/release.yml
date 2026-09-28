@@ -1,0 +1,87 @@
+# Builds a release from a pushed tag: the source tarball, the .deb, the two
+# .rpm and the PKGBUILD, with the same scripts a maintainer runs by hand
+# (docs/DEVELOPMENT.md, "Release"). Every package build runs the offline
+# tests. The files get a build provenance attestation, which anyone can check
+# with `gh attestation verify <file> --repo kpagnussat/canvasbio-cb2000`, and
+# are attached to a draft release; the maintainer writes the notes and
+# publishes it. A run started by hand builds and uploads the files as a
+# workflow artifact only.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write        # the draft release
+      id-token: write        # the attestation
+      attestations: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history, so the short commit hash in the version string is
+          # abbreviated the same way as on a maintainer's clone.
+          fetch-depth: 0
+
+      - name: The tag matches the version in the tree
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          version="$(packaging/version.sh)"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+              echo "Tag $GITHUB_REF_NAME, but the tree is version $version" >&2
+              exit 1
+          fi
+
+      - name: Source tarball
+        run: packaging/make-tarball.sh
+
+      - name: Ubuntu .deb
+        run: packaging/build-deb.sh
+
+      - name: Fedora .rpm
+        run: packaging/build-rpm.sh fedora
+
+      - name: openSUSE .rpm
+        run: packaging/build-rpm.sh opensuse
+
+      - name: Arch PKGBUILD
+        run: packaging/build-arch.sh
+
+      - name: Collect the release files
+        run: |
+          version="$(packaging/version.sh)"
+          mkdir release
+          cp "dist/canvasbio-cb2000-$version.tar.gz" \
+             "dist/libfprint-2-tod1-canvasbio-cb2000_${version}_amd64.deb" \
+             "dist/libfprint-2-tod1-canvasbio-cb2000-$version-1.opensuse.x86_64.rpm" \
+             "dist/libfprint-2-tod1-canvasbio-cb2000-$version-1.fc44.x86_64.rpm" \
+             dist/PKGBUILD release/
+          cd release && sha256sum -- *
+
+      - name: Attest build provenance
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: release/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-files
+          path: release/
+
+      - name: Draft release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --verify-tag \
+              --title "CanvasBio CB2000 libfprint TOD driver $GITHUB_REF_NAME" \
+              --notes "Built by the release workflow from $GITHUB_SHA. Notes to be written." \
+              release/*
