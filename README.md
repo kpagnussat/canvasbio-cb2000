@@ -1,5 +1,15 @@
 # CanvasBio CB2000 Linux Driver
 
+[![Release](https://img.shields.io/github/v/release/kpagnussat/canvasbio-cb2000)](https://github.com/kpagnussat/canvasbio-cb2000/releases/latest)
+[![Release build](https://github.com/kpagnussat/canvasbio-cb2000/actions/workflows/release.yml/badge.svg)](https://github.com/kpagnussat/canvasbio-cb2000/actions/workflows/release.yml)
+[![Build provenance](https://img.shields.io/badge/build-attested-2ea44f?logo=githubactions&logoColor=white)](https://github.com/kpagnussat/canvasbio-cb2000/attestations)
+[![License](https://img.shields.io/github/license/kpagnussat/canvasbio-cb2000)](LICENSE)
+[![Downloads](https://img.shields.io/github/downloads/kpagnussat/canvasbio-cb2000/total)](https://github.com/kpagnussat/canvasbio-cb2000/releases)
+<br>
+[![USB 2df0:0003](https://img.shields.io/badge/USB-2df0%3A0003-informational)](#canvasbio-cb2000-linux-driver)
+[![libfprint TOD](https://img.shields.io/badge/libfprint-TOD%20module-informational)](https://gitlab.freedesktop.org/3v1n0/libfprint/-/tree/tod)
+[![Ubuntu 26.04](https://img.shields.io/badge/Ubuntu-26.04-E95420?logo=ubuntu&logoColor=white)](#tldr)
+
 A libfprint driver for the **CanvasBio CB2000** fingerprint sensor, USB
 `2df0:0003`, the reader built into the power button at the top right of the
 keyboard on the Samsung Galaxy Book2 360 and Book3 360.
