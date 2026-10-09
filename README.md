@@ -8,7 +8,10 @@
 <br>
 [![USB 2df0:0003](https://img.shields.io/badge/USB-2df0%3A0003-informational)](#canvasbio-cb2000-linux-driver)
 [![libfprint TOD](https://img.shields.io/badge/libfprint-TOD%20module-informational)](https://gitlab.freedesktop.org/3v1n0/libfprint/-/tree/tod)
-[![Ubuntu 26.04](https://img.shields.io/badge/Ubuntu-26.04-E95420?logo=ubuntu&logoColor=white)](#tldr)
+[![Ubuntu 26.04](https://img.shields.io/badge/Ubuntu_26.04-.deb-E95420?logo=ubuntu&logoColor=white)](#tldr)
+[![openSUSE Tumbleweed](https://img.shields.io/badge/openSUSE_Tumbleweed-.rpm-73BA25?logo=opensuse&logoColor=white)](#installing-on-the-other-three)
+[![Fedora 44](https://img.shields.io/badge/Fedora_44-.rpm-51A2DA?logo=fedora&logoColor=white)](#installing-on-the-other-three)
+[![Arch Linux](https://img.shields.io/badge/Arch_Linux-PKGBUILD-1793D1?logo=archlinux&logoColor=white)](#installing-on-the-other-three)
 
 A libfprint driver for the **CanvasBio CB2000** fingerprint sensor, USB
 `2df0:0003`, the reader built into the power button at the top right of the
