@@ -1,5 +1,5 @@
 project('canvasbio-cb2000', 'c',
-        version: '1.0.2',
+        version: '1.0.3',
         license: 'LGPL-2.1-or-later',
         meson_version: '>= 0.61.0',
         default_options: [

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.3
 
 - The engine computes cos, sin and atan2 itself (`src/cb2000_engine_math.c`)
   instead of taking them from the C library, so the result no longer depends
@@ -17,6 +17,8 @@
   is `canvasbio_cb2000`; moving to it means enrolling again (README,
   "Upstream libfprint").
 - Prints enrolled with 1.0.2 keep working: the template format is unchanged.
+- Tested on the sensor with the device test. The openSUSE, Fedora and Arch
+  packages of this release were not run on the sensor.
 
 ## 1.0.2
 

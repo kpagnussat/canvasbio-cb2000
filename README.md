@@ -32,7 +32,7 @@ it is and any other fingerprint reader keeps working.
 On Ubuntu 26.04:
 
 ```sh
-sudo apt install ./libfprint-2-tod1-canvasbio-cb2000_1.0.2_amd64.deb
+sudo apt install ./libfprint-2-tod1-canvasbio-cb2000_1.0.3_amd64.deb
 fprintd-enroll
 fprintd-verify
 ```
@@ -123,7 +123,7 @@ built with TOD, so the module is all you need and nothing about your
 libfprint changes:
 
 ```sh
-sudo zypper install --allow-unsigned-rpm ./libfprint-2-tod1-canvasbio-cb2000-1.0.2-1.opensuse.x86_64.rpm
+sudo zypper install --allow-unsigned-rpm ./libfprint-2-tod1-canvasbio-cb2000-1.0.3-1.opensuse.x86_64.rpm
 ```
 
 The package is not signed. Without `--allow-unsigned-rpm`, `zypper` stops at
@@ -139,7 +139,7 @@ COPR:
 
 ```sh
 sudo dnf copr enable ferdiu/libfprint-tod
-sudo dnf install --allowerasing ./libfprint-2-tod1-canvasbio-cb2000-1.0.2-1.fc44.x86_64.rpm
+sudo dnf install --allowerasing ./libfprint-2-tod1-canvasbio-cb2000-1.0.3-1.fc44.x86_64.rpm
 ```
 
 That pulls in `libfprint-tod`, which **takes the place of your system

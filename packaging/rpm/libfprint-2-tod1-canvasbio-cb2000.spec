@@ -8,7 +8,7 @@
 # target distribution.
 #
 Name:           libfprint-2-tod1-canvasbio-cb2000
-Version:        1.0.2
+Version:        1.0.3
 Release:        1%{?dist}
 Summary:        CanvasBio CB2000 fingerprint sensor driver (libfprint TOD module)
 
@@ -79,6 +79,12 @@ fi
 %{_libdir}/libfprint-2/tod-1/libfprint-tod-canvasbio-cb2000.so
 
 %changelog
+* Mon Oct 26 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.3-1
+- The engine computes cos, sin and atan2 itself (AMD LibM constants), so
+  results no longer depend on the C library or the processor; the USB
+  interface is claimed without a kernel driver detach; scratch buffers
+  are zeroed at allocation.
+
 * Mon Sep 28 2026 Kristofer Pagnussat <kristofer.pagnussat@gmail.com> - 1.0.2-1
 - A damaged stored print is reported as unreadable instead of as a finger
   that does not match; hardened a distance computed from print data; the
