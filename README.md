@@ -433,7 +433,7 @@ It also helps the next person looking for this reader. The
 [linux-hardware.org page for `2df0:0003`](https://linux-hardware.org/?id=usb:2df0-0003)
 lists it in dozens of Galaxy Book2 360 and Book3 360 machines, nearly all of
 them marked as failed. If the driver works for you, upload a probe with
-`sudo -E hw-probe -all -upload` (package `hw-probe`, or the AppImage from
+`sudo hw-probe -all -upload` (package `hw-probe`, or the AppImage from
 [linuxhw/hw-probe](https://github.com/linuxhw/hw-probe)), mark the CanvasBio CB2000
 as working on the probe's page, and name this repository in the comment. A
 probe publishes the machine's hardware list, with serial numbers and other
