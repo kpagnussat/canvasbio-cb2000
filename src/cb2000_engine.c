@@ -419,7 +419,7 @@ block_tensors(const Cb2000EngineImage *img, Tensor *t)
 {
     const gint w = img->width, h = img->height;
     const gint margin = CB2000_ENGINE_BORDER + 1;
-    g_autofree guint8 *q = g_malloc((gsize) w * h);
+    g_autofree guint8 *q = g_malloc0((gsize) w * h);
 
     for (gint i = 0; i < w * h; i++)
         q[i] = img->pixels[i] >> 4;
@@ -1350,7 +1350,7 @@ cb2000_engine_binarize(Cb2000EngineImage *img)
     const gint w = img->width, h = img->height;
     const gint centre = (BIN_LINES - 1) / 2;
     gint8 dx[180][BIN_LINES * BIN_SAMPLES], dy[180][BIN_LINES * BIN_SAMPLES];
-    g_autofree guint8 *out = g_new(guint8, w * h);
+    g_autofree guint8 *out = g_new0(guint8, w * h);
 
     line_bank(dx, dy);
 
@@ -1429,7 +1429,7 @@ cb2000_engine_trim_edges(Cb2000EngineImage *img)
      * bx - 1), from the orientations before any trimming; -1 when a block
      * has no orientation. Angles are mirrored about 90 degrees first, so 10
      * and 170 count as equal. */
-    diff = g_new(gint, m * nby);
+    diff = g_new0(gint, m * nby);
     for (gint by = 0; by < nby; by++) {
         for (gint bx = 1; bx < nbx; bx++) {
             const gint a = fold_orientation(block_at(img, bx, by)->orientation);
