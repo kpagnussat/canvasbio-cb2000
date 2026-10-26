@@ -36,6 +36,7 @@ cp "$repo"/src/canvasbio_cb2000.c \
    "$repo"/src/cb2000_engine_bytes.h \
    "$repo"/src/cb2000_engine_compare.c \
    "$repo"/src/cb2000_engine_enroll.c \
+   "$repo"/src/cb2000_engine_math.c \
    "$repo"/src/cb2000_engine_minutiae.c \
    "$repo"/src/cb2000_engine_pet.c \
    "$repo"/src/cb2000_engine_score.c \

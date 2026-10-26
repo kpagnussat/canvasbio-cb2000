@@ -18,7 +18,8 @@
  * bar that depends on the pair count.
  *
  * Doubles follow the engine's order of operations, since several results
- * are truncated. cos and sin come from the C library.
+ * are truncated. cos and sin are the engine runtime's, see
+ * cb2000_engine_math.c.
  */
 
 #include "cb2000_engine.h"
@@ -182,7 +183,7 @@ plane_free(Plane *p)
 static void
 rotate_image(const Cb2000EngineImage *s, Plane *d, gdouble a, gint border)
 {
-    const gdouble c = cos(a), sn = sin(a);
+    const gdouble c = cb2000_engine_cos(a), sn = cb2000_engine_sin(a);
     const gdouble c100 = c * 100.0, s100 = sn * 100.0;
     const gint lo = border * 100;
     const gint hi_x = (s->width - border) * 100, hi_y = (s->height - border) * 100;
@@ -232,7 +233,8 @@ static void
 translation_for(gdouble a0, gdouble a1, gint w, gint h, gdouble tx0, gdouble ty0,
                 gdouble *tx, gdouble *ty)
 {
-    const gdouble c0 = cos(a0), s0 = sin(a0), c1 = cos(a1), s1 = sin(a1);
+    const gdouble c0 = cb2000_engine_cos(a0), s0 = cb2000_engine_sin(a0);
+    const gdouble c1 = cb2000_engine_cos(a1), s1 = cb2000_engine_sin(a1);
     const gdouble hw = (gdouble) (w / 2), hh = (gdouble) (h / 2);
     const gdouble x0 = (hw * c0 - hh * s0) * 10.0;
     const gdouble y0 = (hw * s0 + hh * c0) * 10.0;
@@ -307,7 +309,7 @@ overlap_score(const Cb2000EngineImage *t, const Plane *u, Candidate *cand)
 static void
 minutia_factors(const Cb2000EngineImage *t, const Cb2000EngineImage *p, Cb2000EngineScore *r)
 {
-    const gdouble c = cos(r->angle), s = sin(r->angle);
+    const gdouble c = cb2000_engine_cos(r->angle), s = cb2000_engine_sin(r->angle);
     /* Compatibility detail: a translation in tenths is added to pixel
      * positions. */
     const gint dx = (gint) r->tx, dy = (gint) r->ty;
@@ -388,7 +390,8 @@ cb2000_engine_node_score(const Cb2000EngineImage *tmpl, const Cb2000EngineImage 
     cand.angle = pet->angle;
     cand.rate = -1;
     cand.pairs = pet->pairs;
-    rotated_box(probe->width, probe->height, cos(cand.angle), sin(cand.angle),
+    rotated_box(probe->width, probe->height,
+                cb2000_engine_cos(cand.angle), cb2000_engine_sin(cand.angle),
                 &xmin, &ymin, NULL, NULL);
     cand.tx = cand.tx + (gdouble) (xmin * 10);
     cand.ty = cand.ty + (gdouble) (ymin * 10);

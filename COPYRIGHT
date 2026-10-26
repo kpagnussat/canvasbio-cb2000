@@ -7,7 +7,12 @@ libfprint driver for the CanvasBio CB2000 fingerprint sensor (USB 2df0:0003).
 
 Every source file here was written for this project and is distributed under
 LGPL-2.1-or-later, as stated in each file header. The LGPL-2.1 license text
-is in `LICENSE`. No third-party code is included and nothing is vendored.
+is in `LICENSE`. No third-party code is included and nothing is vendored,
+with one exception: `src/cb2000_engine_math.c` uses the polynomial
+coefficients and the atan(j/256) table of AMD's open-source LibM
+(https://github.com/amd/aocl-libm-ose), Copyright (C) 2008-2026 Advanced
+Micro Devices, Inc., under the BSD-3-Clause license, whose notice is
+reproduced in that file.
 
 The driver is built against libfprint's internal driver API, either as a
 libfprint-tod module or inside a pinned libfprint tree:

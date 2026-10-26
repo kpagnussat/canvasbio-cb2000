@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- The engine computes cos, sin and atan2 itself (`src/cb2000_engine_math.c`)
+  instead of taking them from the C library, so the result no longer depends
+  on the glibc version or the processor. The constants come from AMD's
+  open-source LibM (BSD-3-Clause, see `COPYRIGHT`).
+- Prints enrolled with 1.0.2 keep working: the template format is unchanged.
+
 ## 1.0.2
 
 - A stored print whose engine template is damaged is now refused when it is

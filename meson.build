@@ -33,6 +33,11 @@ if commit == '' and fs.exists(meson.project_source_root() / '.commit')
   commit = fs.read('.commit').strip()
 endif
 
+# The engine reproduces the Windows engine's doubles operation by
+# operation: a multiply and an add must never be fused behind its back
+# (cb2000_engine_math.c fuses exactly where the Windows runtime does).
+add_project_arguments('-ffp-contract=off', language: 'c')
+
 driver_version = meson.project_version()
 if commit != ''
   driver_version += '+' + commit
@@ -57,6 +62,7 @@ core_sources = files(
   'src/cb2000_engine_compare.c',
   'src/cb2000_engine_enroll.c',
   'src/cb2000_engine_adapter.c',
+  'src/cb2000_engine_math.c',
 )
 core_deps = [meson.get_compiler('c').find_library('m', required: false)]
 
@@ -97,7 +103,8 @@ if get_option('tests')
                            files('tests/offline/cb2000-engine-test.c', 'src/cb2000_engine.c',
                                  'src/cb2000_engine_minutiae.c', 'src/cb2000_engine_pet.c',
                                  'src/cb2000_engine_score.c', 'src/cb2000_engine_compare.c',
-                                 'src/cb2000_engine_enroll.c', 'src/cb2000_engine_adapter.c'),
+                                 'src/cb2000_engine_enroll.c', 'src/cb2000_engine_adapter.c',
+                                 'src/cb2000_engine_math.c'),
                            dependencies: [dependency('glib-2.0')] + core_deps,
                            include_directories: include_directories('src'),
                            install: false)

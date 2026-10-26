@@ -59,7 +59,10 @@ One divergence: in the pairing transform, 829 of 14528 floating point values
 differ in the last bit. `atan2`, `cos` and `sin` in the runtime the DLL links
 against do not round identically to glibc, and the vendor's own sine and
 cosine shift with fused multiply add depending on the CPU. Every integer
-output, record and verdict in these runs is identical.
+output, record and verdict in these runs is identical. The engine now
+computes these three functions itself (`src/cb2000_engine_math.c`), on the
+fused multiply add path, with constants from AMD's open-source LibM
+(aocl-libm-ose, BSD-3-Clause).
 
 The last row is the same level 3 comparison run again, after the implementation
 was finished, on inputs it had never seen: every touch of the side by side

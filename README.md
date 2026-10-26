@@ -245,6 +245,7 @@ the driver runs.
 | `cb2000_engine_minutiae.c` | Endings and forks of the binary image, found with the pattern table, confirmed on the contour, then pruned by the vendor's chain of rules |
 | `cb2000_engine_pet.c` | Keypoint pairing between a template node and a probe: descriptor picks, neighbour trees, the rigid motion that most pairs agree with |
 | `cb2000_engine_score.c` | The pixel level check of that motion, the score the minutiae scale, and the decision bar that depends on the pair count |
+| `cb2000_engine_math.c` | cos, sin and atan2 rounded as the vendor's runtime rounds them, with the constants of AMD's open-source LibM |
 | `cb2000_engine_compare.c` | Extract and compare as the engine offers them, including the node record every comparison actually goes through |
 | `cb2000_engine_bytes.h` | Little-endian accessors of the template format, shared by the two files that read and write it |
 | `cb2000_engine_enroll.c` | Enrollment: pairing a touch against the stored nodes, fusing it into the one it matches, and the template buffer byte for byte |
@@ -393,7 +394,9 @@ traces, device dumps and documented behavioral findings gathered for
 interoperability. No vendor source code, binaries, decompiler output, tables
 or data files are copied or redistributed. The vendor's Windows package is
 used only as a behavioral reference and test oracle; the method and the
-derived technical facts are documented in `docs/`.
+derived technical facts are documented in `docs/`. The engine's cos, sin and
+atan2 use constants from AMD's open-source LibM (BSD-3-Clause); see
+`COPYRIGHT`.
 
 The driver was written with the help of an AI assistant, mainly for pattern
 analysis of the Windows driver's behavior and for keeping this pile of, ahem,

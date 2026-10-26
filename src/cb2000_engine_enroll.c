@@ -532,7 +532,7 @@ near_probe_edge(const Cb2000EngineKeypoint *kp, const Cb2000EngineImage *p)
 static void
 rotate_features(const Cb2000EngineImage *p, Cb2000EngineImage *v, gdouble a)
 {
-    const gdouble c = cos(a), s = sin(a);
+    const gdouble c = cb2000_engine_cos(a), s = cb2000_engine_sin(a);
     gint xmin, ymin;
 
     cb2000_engine_rotated_box(p->width, p->height, c, s, &xmin, &ymin);

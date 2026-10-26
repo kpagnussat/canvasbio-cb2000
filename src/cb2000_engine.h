@@ -245,6 +245,19 @@ typedef struct {
 gint cb2000_engine_pet_match(Cb2000EngineImage *tmpl, Cb2000EngineImage *probe,
                              Cb2000EnginePetResult *result);
 
+/* Math (cb2000_engine_math.c) */
+
+/*
+ * cos, sin and atan2 as the C runtime linked into the Windows engine
+ * computes them (cos and sin on its FMA3 path). They differ from glibc's
+ * in the last bit on a few percent of inputs, and the pairing and the
+ * score turn some of those bits into discrete outcomes. cos and sin fall
+ * back to the C library for |x| >= 2e7, which the engine never passes.
+ */
+double cb2000_engine_cos(double x);
+double cb2000_engine_sin(double x);
+double cb2000_engine_atan2(double y, double x);
+
 /* Score and decision (cb2000_engine_score.c) */
 
 

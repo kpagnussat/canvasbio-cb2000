@@ -65,6 +65,7 @@ device we think we are implementing.
 | `cb2000_engine_compare.c` | part of the engine: node records, and the extract and compare calls |
 | `cb2000_engine_enroll.c` | part of the engine: enrollment (touch fusion into nodes) and the template buffer |
 | `cb2000_engine_adapter.c` | part of the engine: the Windows adapter's touch logic (position and wet checks, retry or no-match, identify walk, enrollment touches) |
+| `cb2000_engine_math.c` | part of the engine: cos, sin and atan2 rounded as the runtime linked into the Windows engine rounds them |
 | `cb2000_print.c/h` | print storage: libfprint `FpPrint` to and from the engine's template buffer (print version 3; earlier prints held frames and must be enrolled again) |
 | `cb2000_tod_entry.c`, `cb2000_tod.map` | TOD module entry point and exported symbols |
 

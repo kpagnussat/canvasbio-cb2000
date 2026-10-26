@@ -423,9 +423,9 @@ fit(const Accum *acc, gint n, gdouble *s, gdouble *c, gdouble *tx, gdouble *ty, 
     const gdouble m0 = v[0] / nn, m1 = v[1] / nn;
     const gdouble m2 = v[2] / nn, m3 = v[3] / nn;
 
-    *th = atan2(cc - d, a + b);
-    *c = cos(*th);
-    *s = sin(*th);
+    *th = cb2000_engine_atan2(cc - d, a + b);
+    *c = cb2000_engine_cos(*th);
+    *s = cb2000_engine_sin(*th);
     *tx = m1 - (*c * m0 - *s * m2);
     *ty = m3 - (m0 * *s + m2 * *c);
 }
@@ -498,7 +498,7 @@ fit_pass(Match *buf, gint n, gdouble tol, gdouble *s, gdouble *c,
 static void
 motion_set(Motion *m, gdouble th, gdouble tx, gdouble ty)
 {
-    const gdouble c = cos(th), s = sin(th);
+    const gdouble c = cb2000_engine_cos(th), s = cb2000_engine_sin(th);
 
     m->m[0] = c;
     m->m[1] = -s;
@@ -792,7 +792,7 @@ final_fit(const Pair *win, gint n, gdouble *tx_out, gdouble *ty_out, gdouble *th
 {
     const gdouble c0 = win->motion.m[0], s0 = win->motion.m[2];
     gdouble T = win->motion.m[4], U = win->motion.m[5];
-    gdouble TH = atan2(s0, c0), tol = PET_FINAL_TOL;
+    gdouble TH = cb2000_engine_atan2(s0, c0), tol = PET_FINAL_TOL;
     g_autofree Match *buf = g_new(Match, n);
     gint nbuf = 0;
 
@@ -885,7 +885,7 @@ cb2000_engine_pet_match(Cb2000EngineImage *tmpl, Cb2000EngineImage *probe,
 
         final_fit(winner, best + 1, &tx, &ty, &th);
         /* The engine re-reads the angle from its motion matrix. */
-        result->angle = atan2(sin(th), cos(th));
+        result->angle = cb2000_engine_atan2(cb2000_engine_sin(th), cb2000_engine_cos(th));
         result->tx = tx;
         result->ty = ty;
         result->found = TRUE;
