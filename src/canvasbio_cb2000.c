@@ -900,8 +900,7 @@ cycle_run_state(FpiSsm *ssm, FpDevice *dev)
             g_clear_error(&err);
         }
 
-        if (!g_usb_device_claim_interface(usb, 0,
-                G_USB_DEVICE_CLAIM_INTERFACE_BIND_KERNEL_DRIVER, &err)) {
+        if (!g_usb_device_claim_interface(usb, 0, 0, &err)) {
             fp_warn("Cannot reclaim the USB interface after reset: %s", err->message);
             self->recovery_count = CB2000_MAX_RECOVERIES; /* no further resets */
             fpi_ssm_mark_failed(ssm, err);
@@ -1433,9 +1432,10 @@ dev_open(FpDevice *device)
         g_clear_error(&error);
     }
 
-    if (!g_usb_device_claim_interface(usb_dev, 0,
-                                       G_USB_DEVICE_CLAIM_INTERFACE_BIND_KERNEL_DRIVER,
-                                       &error)) {
+    /* No kernel driver binds this vendor-specific interface, so nothing is
+     * detached (flags 0, as in the other libfprint drivers; umockdev cannot
+     * replay the detach ioctl). */
+    if (!g_usb_device_claim_interface(usb_dev, 0, 0, &error)) {
         fp_err("Failed to claim USB interface: %s", error->message);
         fpi_device_open_complete(device, error);
         return;
