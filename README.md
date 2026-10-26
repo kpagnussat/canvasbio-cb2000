@@ -387,6 +387,16 @@ stays through updates until you uninstall it, and where on other
 distributions it may not be picked up at all. It exists because it is how the
 driver was developed, not because it is a good way to install it.
 
+### Upstream libfprint
+
+This driver is proposed for libfprint itself in
+[libfprint!687](https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/687).
+There its id is `canvasbio_cb2000`, with an underscore, as libfprint's
+allowlist and tests expect; this TOD module uses `canvasbio-cb2000`. fprintd
+stores prints by driver id, so if you move from this module to a libfprint
+that includes the driver, run `fprintd-delete` for your user and enroll
+again.
+
 ## Provenance
 
 This is a non-commercial, independently written implementation based on USB
@@ -418,6 +428,16 @@ Book model not listed here. Two facts this project cannot produce on its own are
 second machine and a second person's fingers. Reports from other machines and
 people are what will turn the numbers above into something more useful than
 one careful case.
+
+It also helps the next person looking for this reader. The
+[linux-hardware.org page for `2df0:0003`](https://linux-hardware.org/?id=usb:2df0-0003)
+lists it in dozens of Galaxy Book2 360 and Book3 360 machines, nearly all of
+them marked as failed. If the driver works for you, upload a probe with
+`sudo -E hw-probe -all -upload` (package `hw-probe`, or the AppImage from
+[linuxhw/hw-probe](https://github.com/linuxhw/hw-probe)), mark the CanvasBio CB2000
+as working on the probe's page, and name this repository in the comment. A
+probe publishes the machine's hardware list, with serial numbers and other
+identifiers anonymized; whether that is fine for you is your call.
 
 ## License
 

@@ -21,6 +21,20 @@ matching behavior and the messages the engine sends its driver. Only derived
 functional facts are recorded; no vendor source, binary or decompiler output
 is included.
 
+The vendor's own public description of the sensor is the launch article in
+Chosun Biz, 8 November 2017 ([original, in Korean](https://biz.chosun.com/site/data/html_dir/2017/11/08/2017110801273.html),
+[Google Translate](https://translate.google.com/translate?sl=ko&tl=en&u=https://biz.chosun.com/site/data/html_dir/2017/11/08/2017110801273.html)).
+CanvasBio, then a subsidiary of the module maker Crucialtec, announced the
+CB2000 as an 80x64 pixel sensor IC with about half the area of the most used
+sensor of the time, an 11 ms image capture and half the price, aimed at
+low-cost smartphones and feature phones. Its matching algorithm is named
+Carousel, a name the engine still uses for its own parameters, and is said to
+use ridge curvature and gray levels besides feature points and to match an
+enrolled finger with as little as about 1.8 x 1.8 mm of overlap. That last
+claim is the design choice behind the impostor accepts recorded below: a
+decision on a small overlap of plain ridges is what the engine was built to
+make.
+
 ## Differential comparison
 
 A differential oracle, a name more forbidding than the method. A C
@@ -343,4 +357,6 @@ that uncertainty does not quietly harden into fact.
 3. **Power events.** Windows also sets the lift-wait flag on power events
    (sleep, display); libfprint's suspend and resume are not wired to it.
 4. **Upstreaming.** Whether libfprint would take an image driver that carries
-   its own engine.
+   its own engine. Proposed in
+   [libfprint!687](https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/687),
+   waiting for the maintainers.

@@ -6,6 +6,16 @@
   instead of taking them from the C library, so the result no longer depends
   on the glibc version or the processor. The constants come from AMD's
   open-source LibM (BSD-3-Clause, see `COPYRIGHT`).
+- The USB interface is claimed without asking the kernel to detach a driver
+  from it. No kernel driver binds to `2df0:0003`, so nothing changes on the
+  sensor; the detach request was what kept the libfprint test recording
+  from replaying.
+- The engine's scratch buffers are zeroed when they are allocated. Each one
+  was already fully written before it was read, so no result changes; the
+  static analyzer in libfprint's CI could not see that and reported them.
+- The driver is proposed for libfprint itself (libfprint!687). There its id
+  is `canvasbio_cb2000`; moving to it means enrolling again (README,
+  "Upstream libfprint").
 - Prints enrolled with 1.0.2 keep working: the template format is unchanged.
 
 ## 1.0.2
